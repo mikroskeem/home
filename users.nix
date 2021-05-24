@@ -17,7 +17,8 @@
 
         weechat ]
     ++ [ hack-font fira-code ]
-    ++ [ gnome3.adwaita-icon-theme ];
+    ++ [ gnome3.adwaita-icon-theme ]
+    ++ [ (pkgs.callPackage ./pkgs/chromium-ozone-wrapper.nix { chromium = pkgs.ungoogled-chromium; }) ];
 
     fonts.fontconfig.enable = lib.mkForce true; # TODO: not sure why this needs mkForce
 
