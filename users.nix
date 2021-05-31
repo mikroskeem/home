@@ -1,12 +1,17 @@
-{ lib, ... }: {
+{ config, lib, ... }: {
   users.mutableUsers = false;
 
   # vm installation, good luck.
   users.users.root.initialHashedPassword = "$6$0OpNUbBtQ$foMkIpnmY0D4TOisFc/pEy0TKJ5KI0AAEe6Bex28TODVDzrgfF121ZV/Tvi3lz1aq80679aX1Vw5GvseKXeU.1";
   users.users.mark.initialHashedPassword = "$6$.1G.0Q0KV$iXQK0dk3pDQh6zGnw9Ob2rgfE8Dfu.SZFfFbLWzWtdPZl7ew/lUlS1E75QC.guzPZueTg6rMn2u6lRKEAQFue0";
 
+  users.users.mark.extraGroups = [ "docker" ];
+
   home-manager.useGlobalPkgs = true;
-  home-manager.users.mark = { pkgs, config, ... }: {
+
+  home-manager.users.mark = let
+    hasDesktop = config.programs.sway.enable;
+  in { pkgs, config, ... }: {
     programs.home-manager.enable = true;
     programs.command-not-found.enable = true;
 
@@ -15,12 +20,13 @@
         zip unzip pigz zstd xz
         htop strace lsof ncdu file
 
-        weechat ]
-    ++ [ hack-font fira-code ]
-    ++ [ gnome3.adwaita-icon-theme ]
-    ++ [ (pkgs.callPackage ./pkgs/chromium-ozone-wrapper.nix { chromium = pkgs.ungoogled-chromium; }) ];
+        weechat
+      ] ++ lib.optionals hasDesktop [
+        hack-font fira-code gnome3.adwaita-icon-theme 
+        (pkgs.callPackage ./pkgs/chromium-ozone-wrapper.nix { chromium = pkgs.ungoogled-chromium; })
+      ];
 
-    fonts.fontconfig.enable = lib.mkForce true; # TODO: not sure why this needs mkForce
+    fonts.fontconfig.enable = lib.mkForce hasDesktop; # TODO: not sure why this needs mkForce
 
     programs.bash = {
       enable = true;
@@ -29,7 +35,8 @@
         "gs" = "git status";
 	"gd" = "git diff";
 	"gp" = "git push";
-	"gl" = "git pull";
+        "gl" = "git pull";
+        "ssh" = "env TERM=xterm-256color ssh";
       };
     };
 
@@ -47,6 +54,8 @@
       userName = "Mark Vainomaa";
       userEmail = "mikroskeem@mikroskeem.eu";
 
+      package = pkgs.gitFull;
+
       delta.enable = true;
       lfs.enable = true;
 
@@ -56,6 +65,7 @@
       };
 
       extraConfig.init.defaultBranch = "master";
+      extraConfig.pull.ff = "only";
     };
 
     programs.gpg = {
@@ -89,6 +99,11 @@
 
     programs.emacs = {
       enable = true;
+      package = if hasDesktop then pkgs.emacsGcc else (pkgs.emacsGcc.override {
+        withX = false;
+        withGTK2 = false;
+        withGTK3 = false;
+      }).overrideAttrs (oa: { name = "${oa.name}-nox"; });
       extraPackages = epkgs: [
         epkgs.vterm
       ];
@@ -100,7 +115,7 @@
     };
     services.gnome-keyring.enable = true;
 
-    gtk = {
+    gtk = lib.optionalAttrs hasDesktop {
       enable = true;
       font = {
         package = pkgs.noto-fonts;
@@ -118,12 +133,14 @@
       };
     };
 
-    programs.firefox = {
+    programs.firefox = lib.optionalAttrs hasDesktop {
       enable = true;
     };
 
     ## hacks
     # no better way of doing this?
-    home.file.".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
+    home.file = lib.optionalAttrs hasDesktop {
+      ".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
+    };
   };
 }

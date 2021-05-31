@@ -51,6 +51,12 @@
       options = [ "bind" ];
     };
 
+  fileSystems."/var/lib/docker" =
+    { device = "/persist/var/lib/docker";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
   fileSystems."/etc/nixos" =
     { device = "/persist/etc/nixos";
       fsType = "none";
