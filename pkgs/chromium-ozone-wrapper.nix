@@ -8,7 +8,8 @@ let
     fi
     exec ${chromium}/bin/chromium "''${params[@]}" $@
   '';
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "${lib.strings.getName chromium.name}-wayland-wrapped";
   version = lib.strings.getVersion chromium.name;
 

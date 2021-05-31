@@ -2,7 +2,8 @@
 
 {
   imports =
-    [ ./hardware-configuration.nix
+    [
+      ./hardware-configuration.nix
       (import "${builtins.fetchTarball "https://github.com/rycee/home-manager/archive/master.tar.gz"}/nixos")
       ./users.nix
       ./tmpfs-root.nix
@@ -35,7 +36,12 @@
 
   environment.systemPackages = with pkgs; [
     neovim-unwrapped
-    htop ncdu strace lsof exa curl
+    htop
+    ncdu
+    strace
+    lsof
+    exa
+    curl
   ];
 
   users.users.mark = {
