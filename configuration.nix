@@ -10,6 +10,9 @@
       #./lxc.nix
       #./sway.nix
 
+      ./chronyd.nix
+      ./dnscrypt.nix
+
       ./vmware-guest.nix
     ];
 
