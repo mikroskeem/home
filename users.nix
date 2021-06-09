@@ -31,6 +31,7 @@
           lsof
           ncdu
           file
+          moreutils
 
           weechat
         ] ++ lib.optionals hasDesktop [
@@ -51,12 +52,15 @@
           "gp" = "git push";
           "gl" = "git pull";
           "ssh" = "env TERM=xterm-256color ssh";
+          "mkdir" = "mkdir -p";
         };
       };
 
       programs.zsh = {
         enable = true;
       };
+
+      programs.bat.enable = true;
 
       programs.exa = {
         enable = true;
@@ -113,7 +117,7 @@
 
       programs.emacs = {
         enable = true;
-        package = if hasDesktop then pkgs.emacsGcc else
+        package = if hasDesktop then pkgs.emacsPgtkGcc else
         (pkgs.emacsGcc.override {
           withX = false;
           withGTK2 = false;
