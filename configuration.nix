@@ -9,7 +9,7 @@
       ./tmpfs-root.nix
       ./nix-flakes.nix
       #./lxc.nix
-      #./sway.nix
+      ./sway.nix
 
       ./chronyd.nix
       ./dnscrypt.nix
@@ -20,9 +20,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
+  boot.kernelParams = [ "hugepagesz=1GB" "hugepages=2" ];
 
   networking.useDHCP = false;
   networking.interfaces.ens33.useDHCP = true;
+  networking.interfaces.ens38.useDHCP = true;
   networking.hostName = "nixos";
   networking.hostId = "007f0200";
   networking.firewall.enable = false;
