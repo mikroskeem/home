@@ -79,6 +79,13 @@
       options = [ "bind" ];
     };
 
+  fileSystems."/veryhugepages" =
+    {
+      device = "hugetlbfs";
+      fsType = "none";
+      options = [ "pagesize=1G" ];
+    };
+
   # VMWare specific
   #fileSystems."/mnt/host" =
   #  { device = ".host:/";
