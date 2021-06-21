@@ -9,6 +9,7 @@
       ./tmpfs-root.nix
       ./nix-flakes.nix
       #./lxc.nix
+      ./docker.nix
       ./sway.nix
 
       ./chronyd.nix

@@ -81,8 +81,8 @@
 
   fileSystems."/veryhugepages" =
     {
-      device = "hugetlbfs";
-      fsType = "none";
+      device = "none";
+      fsType = "hugetlbfs";
       options = [ "pagesize=1G" ];
     };
 

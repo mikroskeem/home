@@ -1,6 +1,30 @@
 { config, lib, ... }: {
   users.mutableUsers = false;
 
+  security.pam.loginLimits = [
+    {
+      domain = "@wheel";
+      type = "soft";
+      item = "memlock";
+      value = "1048576"; # 1 * 1048576
+    }
+    {
+      domain = "@wheel";
+      type = "hard";
+      item = "memlock";
+      value = "4194304"; # 4 * 1048576
+    }
+  ];
+
+  security.doas.enable = true;
+  security.doas.extraRules = [
+    {
+      users = [ ":wheel" ];
+      keepEnv = true;
+      persist = true;
+    }
+  ];
+
   # vm installation, good luck.
   users.users.root.initialHashedPassword = "$6$0OpNUbBtQ$foMkIpnmY0D4TOisFc/pEy0TKJ5KI0AAEe6Bex28TODVDzrgfF121ZV/Tvi3lz1aq80679aX1Vw5GvseKXeU.1";
   users.users.mark.initialHashedPassword = "$6$.1G.0Q0KV$iXQK0dk3pDQh6zGnw9Ob2rgfE8Dfu.SZFfFbLWzWtdPZl7ew/lUlS1E75QC.guzPZueTg6rMn2u6lRKEAQFue0";
@@ -92,7 +116,7 @@
 
       programs.direnv = {
         enable = true;
-        enableNixDirenvIntegration = true;
+        nix-direnv.enable = true;
       };
 
       programs.fzf.enable = true;
