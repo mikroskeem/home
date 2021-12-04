@@ -9,6 +9,7 @@ if ! [ -f "${flake}/flake.nix" ]; then
 fi
 
 machine="$(uname -s)"
+elevate="sudo"
 
 case "${machine}" in
 	Darwin)
@@ -18,9 +19,11 @@ case "${machine}" in
 		[ -L ./result ] && rm result
 		;;
 	Linux)
-		# TODO
-		echo "unsupported machine: ${machine}"
-		exit 1
+		if test -n "$(command -v doas &>/dev/null)"; then
+			elevate="doas"
+		fi
+
+		"${elevate}" nixos-rebuild switch --flake "${flake}"
 		;;
 	*)
 		echo "unsupported machine: ${machine}"
