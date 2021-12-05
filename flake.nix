@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     darwin.url = "github:lnl7/nix-darwin/master";
     home-manager.url = "github:nix-community/home-manager/master";
     impermanence.url = "github:nix-community/impermanence/master";
@@ -11,7 +12,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, darwin, nixpkgs, home-manager, impermanence }:
+  outputs = { self, darwin, nixpkgs, nixpkgs-master, home-manager, impermanence }:
     let
       nixpkgsConfig = {
         config = {
@@ -43,6 +44,11 @@
                       priority = 10;
                     };
                   });
+                })
+
+                # https://github.com/NixOS/nixpkgs/pull/148251 not on nixpkgs-unstable yet
+                (final: prev: {
+                  qemu = nixpkgs-master.legacyPackages.${system}.qemu;
                 })
               ];
 
