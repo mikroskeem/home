@@ -20,7 +20,17 @@
         };
       };
     in
-    {
+    rec {
+      nixosModules.nixPathShim = { ... }: {
+        config = {
+          nix.nixPath = [
+            "nixpkgs=${nixpkgs.outPath}"
+          ];
+        };
+      };
+
+      darwinModules.nixPathShim = nixosModules.nixPathShim;
+
       # TODO: hostname is "miniskeem.lan" :(
       darwinConfigurations."miniskeem"."lan" =
         let
@@ -31,21 +41,11 @@
         darwin.lib.darwinSystem rec {
           system = "aarch64-darwin";
           modules = [
+            darwinModules.nixPathShim
             home-manager.darwinModules.home-manager
             ({ ... }: {
-              nixpkgs.config.allowUnfree = true;
-
+              nixpkgs.config = nixpkgsConfig.config;
               nixpkgs.overlays = [
-                # https://github.com/NixOS/nixpkgs/issues/138157
-                (final: prev: {
-                  nixUnstable = prev.nixUnstable.overrideAttrs (old: {
-                    patches = old.patches ++ [ ./patches/nix/unset-is-macho.patch ];
-                    meta = (old.meta or { }) // {
-                      priority = 10;
-                    };
-                  });
-                })
-
                 # https://github.com/NixOS/nixpkgs/pull/148251 not on nixpkgs-unstable yet
                 (final: prev: {
                   qemu = nixpkgs-master.legacyPackages.${system}.qemu;
@@ -64,7 +64,7 @@
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
           ({ ... }: {
-            nixpkgs.config.allowUnfree = true;
+            nixpkgs.config = nixpkgsConfig.config;
             home-manager.useGlobalPkgs = true;
           })
           ./systems/meeksorkim2
