@@ -43,7 +43,7 @@
     pathsToLink = "/Applications";
   });
 
-  home-manager.users.mark = { pkgs, ... }@args: (import ../home/mark.nix (args // { inherit intelPkgs; }));
+  home-manager.users.mark = { pkgs, ... }@args: (import ../../home/mark.nix (args // { inherit intelPkgs; }));
 
   system.stateVersion = 4;
 }

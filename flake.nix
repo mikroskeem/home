@@ -5,11 +5,13 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     darwin.url = "github:lnl7/nix-darwin/master";
     home-manager.url = "github:nix-community/home-manager/master";
+    impermanence.url = "github:nix-community/impermanence/master";
 
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, darwin, nixpkgs, home-manager }:
+  outputs = { self, darwin, nixpkgs, home-manager, impermanence }:
     let
       nixpkgsConfig = {
         config = {
@@ -46,8 +48,22 @@
 
               home-manager.useGlobalPkgs = true;
             })
-            (args@{ config, pkgs, lib, stdenv, ... }: (import ./systems/miniskeem.nix (args // { inherit useRosetta intelPkgs; })))
+            (args@{ config, pkgs, lib, stdenv, ... }: (import ./systems/miniskeem (args // { inherit useRosetta intelPkgs; })))
           ];
         };
+
+      nixosConfigurations."meeksorkim2" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          home-manager.nixosModules.home-manager
+          impermanence.nixosModules.impermanence
+          ({ ... }: {
+            nixpkgs.config.allowUnfree = true;
+            home-manager.useGlobalPkgs = true;
+          })
+          ./systems/meeksorkim2
+          (import ./systems/_linux/docker.nix { })
+        ];
+      };
     };
 }

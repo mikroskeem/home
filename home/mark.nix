@@ -1,4 +1,10 @@
-{ config, pkgs, lib, intelPkgs, ... }:
+{ config
+, pkgs
+, lib
+, intelPkgs ? null
+, hasDesktop ? pkgs.stdenv.isDarwin
+, ...
+}:
 let
   packageWorkarounds = {
     aarch64-darwin = {
@@ -56,9 +62,8 @@ rec {
               exec "$@"
             fi
           ''))
-
-          # Games
-          quakespasm
+        ] ++ lib.optionals pkgs.stdenv.isLinux [
+          strace
         ] ++ lib.optionals pkgs.stdenv.isDarwin [
           lima
 
@@ -90,6 +95,17 @@ rec {
               runHook postInstall
             '';
           })
+        ] ++ lib.optionals hasDesktop [
+          # Games
+          quakespasm
+        ] ++ lib.optionals (hasDesktop && pkgs.stdenv.isLinux) [
+          hack-font
+          fira-code
+          gnome3.adwaita-icon-theme
+          (pkgs.callPackage ../pkgs/chromium-ozone-wrapper.nix { chromium = pkgs.ungoogled-chromium; })
+
+          alacritty
+          ripcord
         ];
     in
     map usePackageWorkaround chosen;
@@ -104,6 +120,31 @@ rec {
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     "/usr/local/zfs/bin"
   ];
+
+  gtk = lib.optionalAttrs (hasDesktop && pkgs.stdenv.isLinux) {
+    enable = true;
+    font = {
+      package = pkgs.noto-fonts;
+      name = "Noto Sans";
+      size = 12;
+    };
+
+    iconTheme = {
+      package = pkgs.gnome3.adwaita-icon-theme;
+      name = "Adwaita-Dark";
+    };
+
+    theme = {
+      name = "Adwaita-Dark";
+    };
+  };
+
+  # no better way of doing this?
+  home.file = lib.optionalAttrs (hasDesktop && pkgs.stdenv.isLinux) {
+    ".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
+  };
+
+  fonts.fontconfig.enable = lib.mkForce hasDesktop; # TODO: not sure why this needs mkForce
 
   programs.zsh = {
     enable = true;
@@ -132,6 +173,7 @@ rec {
   programs.neovim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
+      nvim-lspconfig
       vim-nix
     ];
   };
@@ -171,6 +213,7 @@ rec {
     enableExtraSocket = true;
     enableSshSupport = true;
     #enableScDaemon = true;
+    defaultCacheTtl = 7200;
   };
 
   programs.direnv = {
@@ -198,5 +241,9 @@ rec {
       epkgs.magit
       epkgs.vterm
     ];
+  };
+
+  programs.firefox = lib.optionalAttrs pkgs.stdenv.isLinux {
+    enable = true;
   };
 }
