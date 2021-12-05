@@ -7,16 +7,17 @@
 }:
 
 {
+  imports = [
+    ../_common/nix.nix
+  ];
+
   services.nix-daemon.enable = true;
   programs.zsh.enable = true;
   programs.bash.enable = true;
 
-  nix.package = pkgs.nixUnstable;
   nix.useSandbox = false; # TODO: giga slow
 
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '' + lib.optionalString useRosetta ''
+  nix.extraOptions = lib.optionalString useRosetta ''
     extra-platforms = x86_64-darwin
   '';
 
