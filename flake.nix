@@ -25,6 +25,8 @@
 
     darwinModules.nixpkgsCommon = self.nixosModules.nixpkgsCommon;
 
+    nixosModules.impermanenceConfig = import ./modules/impermanence.nix;
+
     darwinConfigurations."miniskeem" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
@@ -43,6 +45,7 @@
       system = "x86_64-linux";
       modules = [
         self.nixosModules.nixpkgsCommon
+        self.nixosModules.impermanenceConfig
         home-manager.nixosModules.home-manager
         impermanence.nixosModules.impermanence
         ./systems/meeksorkim2
