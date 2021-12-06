@@ -27,5 +27,9 @@
     "fs.inotify.max_user_watches" = 32768; # 8192 * 4
   };
 
+  boot.kernelParams = [
+    "loop.max_part=8"
+  ];
+
   programs.zsh.enable = true;
 }
