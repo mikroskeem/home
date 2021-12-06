@@ -49,7 +49,6 @@
         home-manager.nixosModules.home-manager
         impermanence.nixosModules.impermanence
         ./systems/meeksorkim2
-        (import ./systems/_linux/docker.nix { })
       ];
     };
   };

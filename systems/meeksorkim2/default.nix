@@ -6,11 +6,11 @@
     ../_linux/base.nix
     ../_linux/chrony.nix
     ../_linux/dnscrypt.nix
+    (import ../_linux/docker.nix { })
     ../_linux/no-sleep.nix
     ../_linux/fix/nftables.nix
     #../_linux/ui/sway.nix
     #../_linux/ui/gnome.nix
-    #../_linux/docker.nix # imported in top level flake
 
     ./hardware.nix
     ./users.nix
