@@ -9,11 +9,12 @@ if ! [ -f "${flake}/flake.nix" ]; then
 fi
 
 machine="$(uname -s)"
+hostname="$(hostname -s)"
 elevate="sudo"
 
 case "${machine}" in
 	Darwin)
-		darwin-rebuild switch --flake "${flake}"
+		darwin-rebuild switch --flake "${flake}#${hostname}"
 
 		# NOTE: https://github.com/LnL7/nix-darwin/issues/375
 		[ -L ./result ] && rm result
@@ -23,7 +24,7 @@ case "${machine}" in
 			elevate="doas"
 		fi
 
-		"${elevate}" nixos-rebuild switch --flake "${flake}"
+		"${elevate}" nixos-rebuild switch --flake "${flake}#${hostname}"
 		;;
 	*)
 		echo "unsupported machine: ${machine}"

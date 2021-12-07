@@ -31,8 +31,7 @@
 
       darwinModules.nixPathShim = nixosModules.nixPathShim;
 
-      # TODO: hostname is "miniskeem.lan" :(
-      darwinConfigurations."miniskeem"."lan" =
+      darwinConfigurations."miniskeem" =
         let
           useRosetta = true;
 
