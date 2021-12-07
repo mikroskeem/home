@@ -35,6 +35,7 @@ rec {
           fd
           file
           findutils
+          gh
           lsof
           moreutils
           ncdu
