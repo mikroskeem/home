@@ -43,14 +43,8 @@
             darwinModules.nixPathShim
             home-manager.darwinModules.home-manager
             ({ ... }: {
+              nix.registry.nixpkgs.flake = nixpkgs;
               nixpkgs.config = nixpkgsConfig.config;
-              nixpkgs.overlays = [
-                # https://github.com/NixOS/nixpkgs/pull/148251 not on nixpkgs-unstable yet
-                (final: prev: {
-                  qemu = nixpkgs-master.legacyPackages.${system}.qemu;
-                })
-              ];
-
               home-manager.useGlobalPkgs = true;
             })
             (args@{ config, pkgs, lib, stdenv, ... }: (import ./systems/miniskeem (args // { inherit useRosetta intelPkgs; })))
@@ -63,6 +57,7 @@
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
           ({ ... }: {
+            nix.registry.nixpkgs.flake = nixpkgs;
             nixpkgs.config = nixpkgsConfig.config;
             home-manager.useGlobalPkgs = true;
           })
