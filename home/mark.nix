@@ -1,8 +1,8 @@
 { config
 , pkgs
 , lib
-, intelPkgs ? null
-, hasDesktop ? pkgs.stdenv.isDarwin
+, intelPkgs
+, hasDesktop
 , ...
 }:
 let

@@ -2,7 +2,8 @@
 , pkgs
 , lib
 , intelPkgs
-, useRosetta ? false
+, useRosetta
+, hasDesktop
 , ...
 }:
 
@@ -10,6 +11,8 @@
   imports = [
     ../_common/nix.nix
   ];
+
+  system.stateVersion = 4;
 
   services.nix-daemon.enable = true;
   programs.zsh.enable = true;
@@ -44,7 +47,5 @@
     pathsToLink = "/Applications";
   });
 
-  home-manager.users.mark = { pkgs, ... }@args: (import ../../home/mark.nix (args // { inherit intelPkgs; }));
-
-  system.stateVersion = 4;
+  home-manager.users.mark = { pkgs, ... }@args: (import ../../home/mark.nix (args // { inherit intelPkgs hasDesktop; }));
 }
