@@ -12,41 +12,30 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, darwin, nixpkgs, nixpkgs-master, home-manager, impermanence }:
-    let
-      nixpkgsConfig = {
-        config = {
+  outputs = { self, darwin, nixpkgs, nixpkgs-master, home-manager, impermanence }: rec {
+      nixosModules.nixpkgsCommon = { stdenv, ... }: {
+        nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
+        nix.registry.nixpkgs.flake = nixpkgs;
+        home-manager.useGlobalPkgs = true;
+
+        nixpkgs.config = {
           allowUnfree = true;
         };
       };
-    in
-    rec {
-      nixosModules.nixPathShim = { ... }: {
-        config = {
-          nix.nixPath = [
-            "nixpkgs=${nixpkgs.outPath}"
-          ];
-        };
-      };
 
-      darwinModules.nixPathShim = nixosModules.nixPathShim;
+      darwinModules.nixpkgsCommon = nixosModules.nixpkgsCommon;
 
       darwinConfigurations."miniskeem" =
         let
           useRosetta = true;
 
-          intelPkgs = if (useRosetta) then (import nixpkgs (nixpkgsConfig // { system = "x86_64-darwin"; })) else null;
+          intelPkgs = if (useRosetta) then nixpkgs.legacyPackages."x86_64-darwin" else null;
         in
         darwin.lib.darwinSystem rec {
           system = "aarch64-darwin";
           modules = [
-            darwinModules.nixPathShim
+            darwinModules.nixpkgsCommon
             home-manager.darwinModules.home-manager
-            ({ ... }: {
-              nix.registry.nixpkgs.flake = nixpkgs;
-              nixpkgs.config = nixpkgsConfig.config;
-              home-manager.useGlobalPkgs = true;
-            })
             (args@{ config, pkgs, lib, stdenv, ... }: (import ./systems/miniskeem (args // { inherit useRosetta intelPkgs; })))
           ];
         };
@@ -56,11 +45,7 @@
         modules = [
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
-          ({ ... }: {
-            nix.registry.nixpkgs.flake = nixpkgs;
-            nixpkgs.config = nixpkgsConfig.config;
-            home-manager.useGlobalPkgs = true;
-          })
+          nixosModules.nixpkgsCommon
           ./systems/meeksorkim2
           (import ./systems/_linux/docker.nix { })
         ];
