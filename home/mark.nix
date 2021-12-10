@@ -49,6 +49,7 @@ rec {
           zip
           zstd
           openssh
+          pv
           nixpkgs-fmt
           weechat
 
