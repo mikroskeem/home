@@ -7,12 +7,14 @@
     darwin.url = "github:lnl7/nix-darwin/master";
     home-manager.url = "github:nix-community/home-manager/master";
     impermanence.url = "github:nix-community/impermanence/master";
+    nixos-generators.url = "github:nix-community/nixos-generators";
 
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, darwin, nixpkgs, nixpkgs-master, home-manager, impermanence }@inputs: {
+  outputs = { self, darwin, nixpkgs, home-manager, impermanence, ... }@inputs: {
     nixosModules.nixpkgsCommon = { ... }: {
       nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
       nix.registry.nixpkgs.flake = nixpkgs;
@@ -49,6 +51,16 @@
         home-manager.nixosModules.home-manager
         impermanence.nixosModules.impermanence
         ./systems/meeksorkim2
+      ];
+    };
+
+    packages.x86_64-linux.kexecBootstrap = let
+      system = "x86_64-linux";
+    in inputs.nixos-generators.nixosGenerate {
+      pkgs = nixpkgs.legacyPackages.${system};
+      format = "kexec_bundle";
+      modules = [
+        ./systems/_common/nix.nix
       ];
     };
   };
