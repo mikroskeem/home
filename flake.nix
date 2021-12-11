@@ -9,11 +9,13 @@
     impermanence.url = "github:nix-community/impermanence/master";
     nixos-generators.url = "github:nix-community/nixos-generators";
     agenix.url = "github:ryantm/agenix";
+    sops.url = "github:Mic92/sops-nix";
 
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    sops.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, darwin, nixpkgs, home-manager, impermanence, ... }@inputs: {
@@ -51,6 +53,7 @@
         self.nixosModules.nixpkgsCommon
         self.nixosModules.impermanenceConfig
         inputs.agenix.nixosModules.age
+        inputs.sops.nixosModules.sops
         home-manager.nixosModules.home-manager
         impermanence.nixosModules.impermanence
         ./systems/meeksorkim2
