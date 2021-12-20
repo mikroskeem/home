@@ -94,6 +94,7 @@
               pkgs.sops
               pkgs.rage
               pkgs.ssh-to-age
+              inputs.agenix.defaultPackage.${system}
             ];
           };
       });
