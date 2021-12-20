@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-flake="$(dirname -- "${BASH_SOURCE[0]}")"
+flake="$(realpath -- "$(dirname -- "${BASH_SOURCE[0]}")")"
 
 if ! [ -f "${flake}/flake.nix" ]; then
 	echo ">>> ERROR: no flake.nix in '${flake}'"
@@ -63,6 +63,7 @@ do_activate () {
 }
 
 do_cleanup () {
+	cd "${flake}"
 	git checkout -- flake.lock
 }
 
