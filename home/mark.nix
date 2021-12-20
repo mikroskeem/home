@@ -50,6 +50,7 @@ rec {
           zstd
           openssh
           pv
+          tree
           nixpkgs-fmt
           weechat
 
