@@ -71,6 +71,7 @@
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
           ./systems/meeksorkim2
+          ./secrets/passwords
           "${impure-local}"
         ];
       };
