@@ -11,6 +11,9 @@
     agenix.url = "github:ryantm/agenix";
     sops.url = "github:Mic92/sops-nix";
 
+    impure-local.url = "path:/etc/nixos";
+    impure-local.flake = false;
+
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
@@ -18,7 +21,7 @@
     sops.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, darwin, nixpkgs, home-manager, impermanence, ... }@inputs: {
+  outputs = { self, darwin, nixpkgs, home-manager, impermanence, impure-local, ... }@inputs: {
     nixosModules.nixpkgsCommon = { ... }: {
       nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
       nix.registry.nixpkgs.flake = nixpkgs;
@@ -39,6 +42,7 @@
         self.darwinModules.nixpkgsCommon
         home-manager.darwinModules.home-manager
         ./systems/miniskeem
+        "${impure-local}"
       ];
       specialArgs = rec {
         hasDesktop = true;
@@ -57,6 +61,7 @@
         home-manager.nixosModules.home-manager
         impermanence.nixosModules.impermanence
         ./systems/meeksorkim2
+        "${impure-local}"
       ];
     };
 

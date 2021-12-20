@@ -78,6 +78,18 @@
         "type": "github"
       }
     },
+    "impure-local": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-6pJ2Ev9tyW6cLAwqqqb5+VUhqvlVne1+IlB9DtFc0Fo=",
+        "path": "/etc/nixos",
+        "type": "path"
+      },
+      "original": {
+        "path": "/etc/nixos",
+        "type": "path"
+      }
+    },
     "nixlib": {
       "locked": {
         "lastModified": 1636849918,
@@ -152,6 +164,7 @@
         "darwin": "darwin",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "impure-local": "impure-local",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",
