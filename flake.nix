@@ -83,6 +83,8 @@
             ./systems/_common/nix.nix
           ];
         };
+
+      packages.x86_64-linux.persistGen = nixpkgs.legacyPackages."x86_64-linux".callPackage ./pkgs/persist-gen.nix { };
     } // flake-utils.lib.eachSystem supportedSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
