@@ -150,6 +150,7 @@ rec {
     plugins = with pkgs.vimPlugins; [
       nvim-lspconfig
       vim-nix
+      vim-terraform
     ];
   };
 
