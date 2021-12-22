@@ -30,30 +30,30 @@ rec {
     let
       chosen = with pkgs;
         [
-          htop
           coreutils
           fd
           file
           findutils
           gh
+          gnused
+          htop
+          lima
           lsof
           moreutils
           ncdu
+          nixpkgs-fmt
+          openssh
           pigz
+          pv
           ripgrep
-          lima
-          gnused
           tig
+          tree
           unzip
           wakatime
+          weechat
           xz
           zip
           zstd
-          openssh
-          pv
-          tree
-          nixpkgs-fmt
-          weechat
 
           (pkgs.writeShellScriptBin "wait-docker" (lib.optionalString pkgs.stdenv.isDarwin ''
             if ! pgrep -q "com.docker.virtualization"; then
