@@ -32,11 +32,11 @@ gen_age_key () {
 
 	local t="${dir}/state/age.key"
 
-	echo -n "# age public key: " | install -D -m 0400 /dev/stdin "${t}"
+	echo -n "# age public key: " | install -D -m 0600 /dev/stdin "${t}"
 	ssh-to-age -i "${dir}/etc/ssh/ssh_host_${keytype}_key.pub" -o - >> "${t}"
 	ssh-to-age -private-key -i "${dir}/etc/ssh/ssh_host_${keytype}_key" -o - >> "${t}"
 
-	chmod 444 "${t}"
+	chmod 400 "${t}"
 }
 
 gen_impure_config () {
