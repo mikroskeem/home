@@ -41,9 +41,19 @@ gen_age_key () {
 
 gen_impure_config () {
 	local dir="${1}"
+	local conf="${dir}/etc/nixos"
 
 	echo -e "{ ... }: {\n  imports = [\n    # add your local config here\n  ];\n}" \
-		| install -D -m 0644 /dev/stdin "${dir}/etc/nixos/default.nix"
+		| install -D -m 0644 /dev/stdin "${conf}/default.nix"
+
+
+	local expected_hash="sha256-6pJ2Ev9tyW6cLAwqqqb5+VUhqvlVne1+IlB9DtFc0Fo="
+	local actual_hash="$(nix hash path --base32 --type sha256 --sri "${conf}")"
+
+	if ! [ "${actual_hash}" = "${expected_hash}" ]; then
+		log "generated impure config hash mismatch (expected: '${expected_hash}', actual: '${actual_hash}')"
+		return 1
+	fi
 }
 
 pack_root () {
