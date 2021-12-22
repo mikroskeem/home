@@ -41,6 +41,7 @@ rec {
           ncdu
           pigz
           ripgrep
+          lima
           gnused
           tig
           unzip
@@ -68,7 +69,6 @@ rec {
         ] ++ lib.optionals pkgs.stdenv.isLinux [
           strace
         ] ++ lib.optionals pkgs.stdenv.isDarwin [
-          lima
           (pkgs.callPackage ../pkgs/mac-docker-app-shell-completions.nix { })
         ] ++ lib.optionals hasDesktop [
           # Games
