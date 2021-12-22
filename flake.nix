@@ -24,11 +24,14 @@
 
   outputs = { self, nixpkgs, darwin, flake-utils, home-manager, impermanence, impure-local, ... }@inputs:
     let
-      supportedSystems = [
-        "aarch64-darwin"
+      linuxSystems = [
         "aarch64-linux"
-        "x86_64-darwin"
         "x86_64-linux"
+      ];
+
+      supportedSystems = linuxSystems ++ [
+        "aarch64-darwin"
+        "x86_64-darwin"
       ];
     in
     {
@@ -75,18 +78,22 @@
           "${impure-local}"
         ];
       };
+    } // flake-utils.lib.eachSystem linuxSystems (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        packages.kexecBootstrap =
+          inputs.nixos-generators.nixosGenerate {
+            inherit pkgs;
+            format = "kexec-bundle";
+            modules = [
+              ./systems/_common/nix.nix
+            ];
+          };
 
-      packages.x86_64-linux.kexecBootstrap =
-        inputs.nixos-generators.nixosGenerate {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          format = "kexec-bundle";
-          modules = [
-            ./systems/_common/nix.nix
-          ];
-        };
-
-      packages.x86_64-linux.persistGen = nixpkgs.legacyPackages."x86_64-linux".callPackage ./pkgs/persist-gen.nix { };
-    } // flake-utils.lib.eachSystem supportedSystems (system:
+        packages.persistGen = pkgs.callPackage ./pkgs/persist-gen.nix { };
+      }) // flake-utils.lib.eachSystem supportedSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in
