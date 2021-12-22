@@ -55,17 +55,7 @@ rec {
           zip
           zstd
 
-          (pkgs.writeShellScriptBin "wait-docker" (lib.optionalString pkgs.stdenv.isDarwin ''
-            if ! pgrep -q "com.docker.virtualization"; then
-              # TODO: still opens this shitty desktop UI
-              open --hide --background -a Docker.app
-            fi
-          '' + ''
-            while ! docker system info &>/dev/null; do sleep 1; done
-            if [ -n "$*" ]; then
-              exec "$@"
-            fi
-          ''))
+          (pkgs.callPackage ../pkgs/wait-docker.nix { })
         ] ++ lib.optionals pkgs.stdenv.isLinux [
           strace
         ] ++ lib.optionals pkgs.stdenv.isDarwin [
