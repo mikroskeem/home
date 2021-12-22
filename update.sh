@@ -9,11 +9,15 @@ if ! [ -f "${flake}/flake.nix" ]; then
 fi
 
 no_activate=0
+install_bootloader=0
 while [ -n "${1:-}" ]; do
 	arg="${1}"
 	case "${arg}" in
 		--no-activate)
 			no_activate=1
+			;;
+		--install-bootloader)
+			install_bootloader=1
 			;;
 		*)
 			echo "unsupported option: ${arg}"
@@ -22,7 +26,7 @@ while [ -n "${1:-}" ]; do
 	shift;
 done
 
-export NIXOS_INSTALL_BOOTLOADER=0 # TODO
+export NIXOS_INSTALL_BOOTLOADER="${install_bootloader}"
 
 machine="$(uname -s)"
 hostname="$(hostname -s)"
