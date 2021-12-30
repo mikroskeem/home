@@ -81,7 +81,7 @@ case "${machine}" in
 			elevate=(doas env NIXOS_INSTALL_BOOTLOADER="${NIXOS_INSTALL_BOOTLOADER}")
 		fi
 
-		wrapper+=(chrt -i 0)
+		wrapper=(chrt -i 0)
 		"${wrapper[@]}" nixos-rebuild build "${args[@]}"
 		do_activate ./result
 		;;
