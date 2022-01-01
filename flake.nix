@@ -11,6 +11,7 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     agenix.url = "github:ryantm/agenix";
     sops.url = "github:Mic92/sops-nix";
+    deploy-rs.url = "github:serokell/deploy-rs";
 
     impure-local.url = "path:/etc/nixos";
     impure-local.flake = false;
@@ -20,6 +21,8 @@
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     sops.inputs.nixpkgs.follows = "nixpkgs";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
+    deploy-rs.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = { self, nixpkgs, darwin, flake-utils, home-manager, impermanence, impure-local, ... }@inputs:
