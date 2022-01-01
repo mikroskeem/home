@@ -82,20 +82,22 @@
         ];
       };
 
-      deploy.nodes."meeksorkim2" = let
-        hostname = "meeksorkim2";
-        cfg = self.nixosConfigurations.${hostname};
-        system = cfg.pkgs.system;
-      in {
-        inherit hostname;
-        profiles = {
-          system = {
-            sshUser = "deploy";
-            user = "root";
-            path = inputs.deploy-rs.lib.${system}.activate.nixos cfg;
+      deploy.nodes."meeksorkim2" =
+        let
+          hostname = "meeksorkim2";
+          cfg = self.nixosConfigurations.${hostname};
+          system = cfg.pkgs.system;
+        in
+        {
+          inherit hostname;
+          profiles = {
+            system = {
+              sshUser = "deploy";
+              user = "root";
+              path = inputs.deploy-rs.lib.${system}.activate.nixos cfg;
+            };
           };
         };
-      };
     } // flake-utils.lib.eachSystem linuxSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
