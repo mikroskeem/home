@@ -4,7 +4,7 @@ let
   defPassword = user: {
     name = "user-password-${user}";
     value = {
-      file = ./${user}.age;
+      file = ./. + "/${user}.age";
       path = "/private/user/default-passwords/${user}";
       symlink = false; # we always want working passwords, even when decryption fails
     };
