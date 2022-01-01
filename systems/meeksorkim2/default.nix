@@ -9,6 +9,7 @@
     (import ../_linux/docker.nix { })
     ../_linux/no-sleep.nix
     ../_linux/fix/nftables.nix
+    ../_linux/deploy.nix
     #../_linux/ui/sway.nix
     #../_linux/ui/gnome.nix
 

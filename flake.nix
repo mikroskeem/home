@@ -90,7 +90,7 @@
         inherit hostname;
         profiles = {
           system = {
-            sshUser = "mark";
+            sshUser = "deploy";
             user = "root";
             path = inputs.deploy-rs.lib.${system}.activate.nixos cfg;
           };
