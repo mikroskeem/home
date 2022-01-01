@@ -81,6 +81,21 @@
           "${impure-local}"
         ];
       };
+
+      deploy.nodes."meeksorkim2" = let
+        hostname = "meeksorkim2";
+        cfg = self.nixosConfigurations.${hostname};
+        system = cfg.pkgs.system;
+      in {
+        inherit hostname;
+        profiles = {
+          system = {
+            sshUser = "mark";
+            user = "root";
+            path = inputs.deploy-rs.lib.${system}.activate.nixos cfg;
+          };
+        };
+      };
     } // flake-utils.lib.eachSystem linuxSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -116,6 +131,7 @@
               pkgs.sops
               pkgs.rage
               pkgs.ssh-to-age
+              inputs.deploy-rs.defaultPackage.${system}
             ] ++ nixpkgs.lib.optional (!(pkgs.stdenv.isDarwin && pkgs.stdenv.isAarch64)) [
               inputs.agenix.defaultPackage.${system}
             ];
