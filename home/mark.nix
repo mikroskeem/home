@@ -180,6 +180,7 @@ rec {
     enableSshSupport = true;
     #enableScDaemon = true;
     defaultCacheTtl = 7200;
+    pinentryFlavor = "curses";
   };
 
   programs.direnv = {
