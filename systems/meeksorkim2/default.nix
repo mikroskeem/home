@@ -37,5 +37,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   nixpkgs.config.allowBroken = true; # zfs + linuxPackages_latest, pray that it'll compile and sometimes it actually works.
 
+  security.sudo.wheelNeedsPassword = false;
+
   virtualisation.podman.enable = true;
 }
