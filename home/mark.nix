@@ -44,6 +44,7 @@ rec {
           nixpkgs-fmt
           openssh
           pigz
+          procps
           pv
           ripgrep
           tig
