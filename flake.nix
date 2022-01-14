@@ -48,6 +48,7 @@
       darwinModules.nixpkgsCommon = self.nixosModules.nixpkgsCommon;
 
       nixosModules.impermanenceConfig = import ./modules/impermanence.nix;
+      nixosModules.endlessh = import ./modules/endlessh.nix;
 
       darwinConfigurations."miniskeem" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -69,6 +70,7 @@
         modules = [
           self.nixosModules.nixpkgsCommon
           self.nixosModules.impermanenceConfig
+          self.nixosModules.endlessh
           inputs.agenix.nixosModules.age
           inputs.sops.nixosModules.sops
           home-manager.nixosModules.home-manager
