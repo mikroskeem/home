@@ -6,11 +6,7 @@
 , ...
 }:
 let
-  packageWorkarounds = {
-    aarch64-darwin = {
-      weechat = onlyIntel "weechat";
-    };
-  };
+  packageWorkarounds = { };
 
   usePackageWorkaround = p:
     let
@@ -51,7 +47,6 @@ rec {
           tree
           unzip
           wakatime
-          weechat
           xz
           zip
           zstd
