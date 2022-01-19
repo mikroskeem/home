@@ -168,6 +168,10 @@ rec {
 
   programs.gpg = {
     enable = true;
+
+    scdaemonSettings = {
+      disable-ccid = true;
+    };
   };
 
   services.gpg-agent = lib.optionalAttrs pkgs.stdenv.isLinux {
