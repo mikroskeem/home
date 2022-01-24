@@ -35,8 +35,13 @@
       ];
     in
     {
-      nixosModules.nixpkgsCommon = { ... }: {
-        nix.nixPath = [ "nixpkgs=${nixpkgs.outPath}" ];
+      nixosModules.nixpkgsCommon = { lib, pkgs, ... }: {
+        nix.nixPath = [
+          "nixpkgs=${nixpkgs.outPath}"
+        ] ++ lib.optionals pkgs.stdenv.isLinux [
+          "nixpkgs/nixos=${nixpkgs.outPath}/nixos"
+          "nixos-config=/etc/nixos/configuration.nix"
+        ];
         nix.registry.nixpkgs.flake = nixpkgs;
         home-manager.useGlobalPkgs = true;
 
