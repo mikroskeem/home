@@ -3,9 +3,12 @@
 , fetchurl
 , dpkg
 , patchelf
+, copyDesktopItems
 , makeDesktopItem
 , dbus
 , udev
+, wayland
+, libxkbcommon
 , libglvnd
 , libnotify
 , libsecret
@@ -25,6 +28,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
+    copyDesktopItems
     dpkg
     patchelf
   ];
@@ -59,9 +63,11 @@ stdenv.mkDerivation rec {
       libPath = lib.makeLibraryPath [
         dbus
         udev
+        wayland
         libglvnd
         libsecret
         libnotify
+        libxkbcommon
         libX11
         libXcursor
         libXi
