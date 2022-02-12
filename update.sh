@@ -8,6 +8,13 @@ if ! [ -f "${flake}/flake.nix" ]; then
 	exit 1
 fi
 
+machine="$(uname -s)"
+hostname="$(hostname -s)"
+elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
+wrapper=(nice -n 5)
+
+args=(--flake "${flake}#${hostname}")
+
 no_activate=0
 install_bootloader=0
 while [ -n "${1:-}" ]; do
@@ -19,6 +26,9 @@ while [ -n "${1:-}" ]; do
 		--install-bootloader)
 			install_bootloader=1
 			;;
+		--show-trace)
+			args+=(--show-trace)
+			;;
 		*)
 			echo "unsupported option: ${arg}"
 			;;
@@ -27,13 +37,6 @@ while [ -n "${1:-}" ]; do
 done
 
 export NIXOS_INSTALL_BOOTLOADER="${install_bootloader}"
-
-machine="$(uname -s)"
-hostname="$(hostname -s)"
-elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
-
-args=(--flake "${flake}#${hostname}")
-wrapper=(nice -n 5)
 
 # Ensure this is always up to date
 nix flake lock --update-input impure-local
