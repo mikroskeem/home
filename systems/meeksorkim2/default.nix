@@ -40,4 +40,6 @@
   security.sudo.wheelNeedsPassword = false;
 
   virtualisation.podman.enable = true;
+
+  nix.trustedUsers = [ "root" "@wheel" ];
 }

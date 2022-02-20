@@ -29,6 +29,8 @@
     "/Library/Apple"
   ];
 
+  nix.trustedUsers = [ "root" "@admin" ];
+
   users.users.mark = {
     home = "/Users/mark";
   };
