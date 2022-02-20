@@ -119,6 +119,36 @@ rec {
       "mkdir" = "mkdir -p";
     };
 
+    plugins = [
+      #{
+      #  file = "powerlevel10k.zsh-theme";
+      #  name = "powerlevel10k";
+      #  src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
+      #}
+      {
+        file = "zsh-syntax-highlighting.zsh";
+        name = "zsh-syntax-highlighting";
+        src = "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting";
+      }
+      {
+        file = "zsh-autosuggestions.zsh";
+        name = "zsh-autosuggestions";
+        src = "${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions";
+      }
+    ];
+
+    localVariables ={
+      ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=8";
+    }; # // import ./p10k.nix;
+
+    initExtraBeforeCompInit = ''
+      # p10k instant prompt
+      #P10K_INSTANT_PROMPT="$XDG_CACHE_HOME/p10k-instant-prompt-''${(%):-%n}.zsh"
+      #[[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
+
+      #[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+    '';
+
     initExtra = lib.optionalString pkgs.stdenv.isDarwin ''
       # $LANG is horribly broken on MacOS
       if [ -n "$INSIDE_EMACS" ]; then
