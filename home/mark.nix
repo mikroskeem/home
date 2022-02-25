@@ -26,6 +26,7 @@ rec {
     let
       chosen = with pkgs;
         [
+          colima
           coreutils
           fd
           file
@@ -137,7 +138,7 @@ rec {
       }
     ];
 
-    localVariables ={
+    localVariables = {
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=8";
     }; # // import ./p10k.nix;
 
