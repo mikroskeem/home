@@ -42,5 +42,5 @@
 
   virtualisation.podman.enable = true;
 
-  nix.trustedUsers = [ "root" "@wheel" ];
+  nix.settings.trusted-users = [ "root" "@wheel" ];
 }
