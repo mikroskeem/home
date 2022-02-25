@@ -7,6 +7,7 @@
     ../_linux/chrony.nix
     ../_linux/dnscrypt.nix
     (import ../_linux/docker.nix { })
+    ../_linux/nix.nix
     ../_linux/no-sleep.nix
     ../_linux/fix/nftables.nix
     #../_linux/ui/sway.nix
