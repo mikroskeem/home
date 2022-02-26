@@ -150,7 +150,10 @@ rec {
       #[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
     '';
 
-    initExtra = lib.optionalString pkgs.stdenv.isDarwin ''
+    initExtra = ''
+      # Fix prompt swallowing output without a newline
+      setopt prompt_cr prompt_percent prompt_sp
+    '' + lib.optionalString pkgs.stdenv.isDarwin ''
       # $LANG is horribly broken on MacOS
       if [ -n "$INSIDE_EMACS" ]; then
         unset LANG
