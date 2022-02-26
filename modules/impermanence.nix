@@ -20,6 +20,8 @@
       "/var/lib/rancher"
     ] ++ lib.optionals config.virtualisation.docker.enable [
       "/var/lib/docker"
+    ] ++ lib.optionals (config ? declared-secrets) [
+      config.declared-secrets.directory
     ];
 
     files = [

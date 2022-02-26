@@ -184,7 +184,23 @@
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",
+        "secrets-decl": "secrets-decl",
         "sops": "sops"
+      }
+    },
+    "secrets-decl": {
+      "locked": {
+        "lastModified": 1645886569,
+        "narHash": "sha256-vMoDWp+ffU9OrbsyIDyfj/MJdB0lEt9x7m0Q5x+TyYE=",
+        "owner": "ZentriaMC",
+        "repo": "secrets-decl",
+        "rev": "c3400548800cd6b318ada62c7bd8f611cda43fd6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ZentriaMC",
+        "repo": "secrets-decl",
+        "type": "github"
       }
     },
     "sops": {

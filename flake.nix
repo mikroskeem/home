@@ -11,6 +11,7 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     agenix.url = "github:ryantm/agenix";
     sops.url = "github:Mic92/sops-nix";
+    secrets-decl.url = "github:ZentriaMC/secrets-decl";
 
     impure-local.url = "path:/etc/nixos";
     impure-local.flake = false;
@@ -78,6 +79,7 @@
           self.nixosModules.endlessh
           inputs.agenix.nixosModules.age
           inputs.sops.nixosModules.sops
+          inputs.secrets-decl.nixosModules.declaredSecrets
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
           ./systems/meeksorkim2
