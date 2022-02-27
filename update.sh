@@ -13,7 +13,10 @@ hostname="$(hostname -s)"
 elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
 wrapper=(nice -n 5)
 
-args=(--flake "${flake}#${hostname}")
+args=(
+	--flake "${flake}#${hostname}"
+	--override-input impure-local path:/etc/nixos
+)
 
 no_activate=0
 install_bootloader=0
@@ -37,10 +40,6 @@ while [ -n "${1:-}" ]; do
 done
 
 export NIXOS_INSTALL_BOOTLOADER="${install_bootloader}"
-
-# Ensure this is always up to date
-nix flake lock --update-input impure-local
-trap 'do_cleanup' EXIT
 
 do_activate () {
 	if [ "${no_activate}" = "1" ]; then
@@ -67,11 +66,6 @@ do_activate () {
 	fi
 
 	popd >/dev/null
-}
-
-do_cleanup () {
-	cd "${flake}"
-	git checkout -- flake.lock
 }
 
 case "${machine}" in
