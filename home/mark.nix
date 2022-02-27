@@ -117,6 +117,7 @@ rec {
       "gp" = "git push";
       "gl" = "git pull";
       "ssh" = "env TERM=xterm-256color ssh";
+      "issh" = "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null";
       "mkdir" = "mkdir -p";
     };
 
