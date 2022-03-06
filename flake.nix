@@ -13,7 +13,7 @@
     sops.url = "github:Mic92/sops-nix";
     secrets-decl.url = "github:ZentriaMC/secrets-decl";
 
-    impure-local.url = "path:/etc/nixos";
+    impure-local.url = "path:./impure-local";
     impure-local.flake = false;
 
     darwin.inputs.nixpkgs.follows = "nixpkgs";

@@ -97,11 +97,11 @@
       "flake": false,
       "locked": {
         "narHash": "sha256-6pJ2Ev9tyW6cLAwqqqb5+VUhqvlVne1+IlB9DtFc0Fo=",
-        "path": "/etc/nixos",
+        "path": "./impure-local",
         "type": "path"
       },
       "original": {
-        "path": "/etc/nixos",
+        "path": "./impure-local",
         "type": "path"
       }
     },

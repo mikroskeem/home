@@ -13,9 +13,14 @@ hostname="$(hostname -s)"
 elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
 wrapper=(nice -n 5)
 
+impure_path="/etc/nixos"
+if ! [ -d "${impure_path}" ]; then
+	impure_path="${flake}/impure-local"
+fi
+
 args=(
 	--flake "${flake}#${hostname}"
-	--override-input impure-local path:/etc/nixos
+	--override-input impure-local "path:${impure_path}"
 )
 
 no_activate=0
