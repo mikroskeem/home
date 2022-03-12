@@ -12,6 +12,7 @@
     agenix.url = "github:ryantm/agenix";
     sops.url = "github:Mic92/sops-nix";
     secrets-decl.url = "github:ZentriaMC/secrets-decl";
+    docker-zfs-plugin.url = "github:ZentriaMC/docker-zfs-plugin";
 
     impure-local.url = "path:./impure-local";
     impure-local.flake = false;
@@ -21,6 +22,8 @@
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     sops.inputs.nixpkgs.follows = "nixpkgs";
+    docker-zfs-plugin.inputs.flake-utils.follows = "flake-utils";
+    docker-zfs-plugin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, darwin, flake-utils, home-manager, impermanence, impure-local, ... }@inputs:
@@ -80,6 +83,7 @@
           inputs.agenix.nixosModules.age
           inputs.sops.nixosModules.sops
           inputs.secrets-decl.nixosModules.declaredSecrets
+          inputs.docker-zfs-plugin.nixosModule
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
           ./systems/meeksorkim2

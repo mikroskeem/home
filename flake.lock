@@ -41,6 +41,29 @@
         "type": "github"
       }
     },
+    "docker-zfs-plugin": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1647088159,
+        "narHash": "sha256-mgSNU0fByZwHd3ulCYFHSn1I3tX9w5giQQKrfNqVGFk=",
+        "owner": "ZentriaMC",
+        "repo": "docker-zfs-plugin",
+        "rev": "2f554cad1023bd28ca459eed9e805dbfb813bea4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ZentriaMC",
+        "repo": "docker-zfs-plugin",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1644229661,
@@ -177,6 +200,7 @@
       "inputs": {
         "agenix": "agenix",
         "darwin": "darwin",
+        "docker-zfs-plugin": "docker-zfs-plugin",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
