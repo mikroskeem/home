@@ -37,6 +37,16 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
+
+      importPkgs = system: import nixpkgs {
+        inherit system;
+        overlays = [
+          inputs.docker-zfs-plugin.overlay
+        ];
+        config = {
+          allowUnfree = true;
+        };
+      };
     in
     {
       nixosModules.nixpkgsCommon = { lib, pkgs, ... }: {
@@ -48,10 +58,6 @@
         ];
         nix.registry.nixpkgs.flake = nixpkgs;
         home-manager.useGlobalPkgs = true;
-
-        nixpkgs.config = {
-          allowUnfree = true;
-        };
       };
 
       darwinModules.nixpkgsCommon = self.nixosModules.nixpkgsCommon;
@@ -59,7 +65,7 @@
       nixosModules.impermanenceConfig = import ./modules/impermanence.nix;
       nixosModules.endlessh = import ./modules/endlessh.nix;
 
-      darwinConfigurations."miniskeem" = darwin.lib.darwinSystem {
+      darwinConfigurations."miniskeem" = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
         modules = [
           self.darwinModules.nixpkgsCommon
@@ -68,6 +74,7 @@
           "${impure-local}"
         ];
         specialArgs = inputs // rec {
+          pkgs = importPkgs system;
           hasDesktop = true;
           useRosetta = true;
           intelPkgs = if (useRosetta) then nixpkgs.legacyPackages."x86_64-darwin" else null;
@@ -90,7 +97,9 @@
           ./secrets/passwords
           "${impure-local}"
         ];
-        specialArgs = inputs // rec { };
+        specialArgs = inputs // rec {
+          pkgs = importPkgs system;
+        };
       };
     } // flake-utils.lib.eachSystem linuxSystems (system:
       let
