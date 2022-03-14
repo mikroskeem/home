@@ -67,7 +67,7 @@
           ./systems/miniskeem
           "${impure-local}"
         ];
-        specialArgs = rec {
+        specialArgs = inputs // rec {
           hasDesktop = true;
           useRosetta = true;
           intelPkgs = if (useRosetta) then nixpkgs.legacyPackages."x86_64-darwin" else null;
@@ -90,6 +90,7 @@
           ./secrets/passwords
           "${impure-local}"
         ];
+        specialArgs = inputs // rec { };
       };
     } // flake-utils.lib.eachSystem linuxSystems (system:
       let
