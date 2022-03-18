@@ -77,7 +77,7 @@
           pkgs = importPkgs system;
           hasDesktop = true;
           useRosetta = true;
-          intelPkgs = if (useRosetta) then nixpkgs.legacyPackages."x86_64-darwin" else null;
+          intelPkgs = if (useRosetta) then importPkgs "x86_64-darwin" else null;
         };
       };
 
