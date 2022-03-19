@@ -14,7 +14,7 @@ elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
 wrapper=(nice -n 5)
 
 impure_path="/etc/nixos"
-if ! [ -d "${impure_path}" ]; then
+if ! [ -f "${impure_path}/default.nix" ]; then
 	impure_path="${flake}/impure-local"
 fi
 
