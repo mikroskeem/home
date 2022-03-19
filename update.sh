@@ -9,7 +9,7 @@ if ! [ -f "${flake}/flake.nix" ]; then
 fi
 
 machine="$(uname -s)"
-hostname="$(hostname -s)"
+configuration="$(hostname -s)"
 elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
 wrapper=(nice -n 5)
 
@@ -26,9 +26,8 @@ args=(
 
 no_activate=0
 install_bootloader=0
-while [ -n "${1:-}" ]; do
-	arg="${1}"
-	case "${arg}" in
+while (( $# )); do
+	case "${1}" in
 		--no-activate)
 			no_activate=1
 			;;
@@ -38,11 +37,15 @@ while [ -n "${1:-}" ]; do
 		--show-trace)
 			args+=(--show-trace)
 			;;
+		--configuration)
+			shift
+			configuration="${1}"
+			;;
 		*)
-			echo "unsupported option: ${arg}"
+			echo "unsupported option: ${1}"
 			;;
 	esac
-	shift;
+	shift
 done
 
 export NIXOS_INSTALL_BOOTLOADER="${install_bootloader}"
@@ -94,5 +97,5 @@ case "${machine}" in
 esac
 
 args+=(--out-link ./result)
-"${wrapper[@]}" nix build "${args[@]}" "${flake}#${attr}"."${hostname}".config.system.build.toplevel
+"${wrapper[@]}" nix build "${args[@]}" "${flake}#${attr}"."${configuration}".config.system.build.toplevel
 do_activate ./result
