@@ -19,8 +19,9 @@ if ! [ -d "${impure_path}" ]; then
 fi
 
 args=(
-	--flake "${flake}#${hostname}"
 	--override-input impure-local "path:${impure_path}"
+	--extra-experimental-features "nix-command flakes"
+	--no-use-registries
 )
 
 no_activate=0
@@ -73,10 +74,10 @@ do_activate () {
 	popd >/dev/null
 }
 
+attr=""
 case "${machine}" in
 	Darwin)
-		"${wrapper[@]}" darwin-rebuild build "${args[@]}"
-		do_activate ./result
+		attr="darwinConfigurations"
 		;;
 	Linux)
 		if test -n "$(command -v doas &>/dev/null)"; then
@@ -84,11 +85,14 @@ case "${machine}" in
 		fi
 
 		wrapper=(chrt -i 0)
-		"${wrapper[@]}" nixos-rebuild build "${args[@]}"
-		do_activate ./result
+		attr="nixosConfigrurations"
 		;;
 	*)
 		echo "unsupported machine: ${machine}"
 		exit 1
 		;;
 esac
+
+args+=(--out-link ./result)
+"${wrapper[@]}" nix build "${args[@]}" "${flake}#${attr}"."${hostname}".config.system.build.toplevel
+do_activate ./result

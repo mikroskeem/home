@@ -14,6 +14,9 @@
     secrets-decl.url = "github:ZentriaMC/secrets-decl";
     docker-zfs-plugin.url = "github:ZentriaMC/docker-zfs-plugin";
 
+    flake-compat.url = "github:edolstra/flake-compat";
+    flake-compat.flake = false;
+
     impure-local.url = "path:./impure-local";
     impure-local.flake = false;
 
@@ -133,6 +136,7 @@
         devShell =
           pkgs.mkShell {
             nativeBuildInputs = [
+              pkgs.nixFlakes
               pkgs.sops
               pkgs.rage
               pkgs.ssh-to-age
