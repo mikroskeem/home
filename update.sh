@@ -85,7 +85,7 @@ case "${machine}" in
 		fi
 
 		wrapper=(chrt -i 0)
-		attr="nixosConfigrurations"
+		attr="nixosConfigurations"
 		;;
 	*)
 		echo "unsupported machine: ${machine}"
