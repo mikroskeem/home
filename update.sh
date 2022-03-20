@@ -13,19 +13,20 @@ configuration="$(hostname -s)"
 elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
 wrapper=(nice -n 5)
 
-impure_path="/etc/nixos"
-if ! [ -f "${impure_path}/default.nix" ]; then
-	impure_path="${flake}/impure-local"
-fi
-
 args=(
-	--override-input impure-local "path:${impure_path}"
 	--extra-experimental-features "nix-command flakes"
 	--no-use-registries
 )
 
 no_activate=0
+no_impure=0
 install_bootloader=0
+impure_path="/etc/nixos"
+
+if [ "${machine}" = "Darwin" ]; then
+	no_impure=1
+fi
+
 while (( $# )); do
 	case "${1}" in
 		--no-activate)
@@ -41,6 +42,14 @@ while (( $# )); do
 			shift
 			configuration="${1}"
 			;;
+		--impure-path)
+			shift
+			no_impure=0
+			impure_path="${1}"
+			;;
+		--no-impure)
+			no_impure=1
+			;;
 		*)
 			echo "unsupported option: ${1}"
 			;;
@@ -48,13 +57,15 @@ while (( $# )); do
 	shift
 done
 
+if [ "${no_impure}" = "0" ]; then
+	if [ -f "${impure_path}" ] || [ -f "${impure_path}/default.nix" ]; then
+		args+=(--override-input impure-local "path:${impure_path}")
+	fi
+fi
+
 export NIXOS_INSTALL_BOOTLOADER="${install_bootloader}"
 
 do_activate () {
-	if [ "${no_activate}" = "1" ]; then
-		echo "skipping activation as requested"
-		return 0
-	fi
 	local res="${1}"
 	pushd "${res}" >/dev/null
 
@@ -98,4 +109,10 @@ esac
 
 args+=(--out-link ./result)
 "${wrapper[@]}" nix build "${args[@]}" "${flake}#${attr}"."${configuration}".config.system.build.toplevel
+
+if [ "${no_activate}" = "1" ]; then
+	echo "skipping activation as requested"
+	exit 0
+fi
+
 do_activate ./result
