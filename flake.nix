@@ -140,7 +140,6 @@
               pkgs.sops
               pkgs.rage
               pkgs.ssh-to-age
-            ] ++ nixpkgs.lib.optional (!(pkgs.stdenv.isDarwin && pkgs.stdenv.isAarch64)) [
               inputs.agenix.defaultPackage.${system}
             ];
           };
