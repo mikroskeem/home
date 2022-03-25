@@ -50,6 +50,14 @@
           (final: prev: let
             zfsPkgs = inputs.nixpkgs-master-zfs;
             drv = "${zfsPkgs}/pkgs/os-specific/linux/zfs/default.nix";
+            overrides = [
+              "linuxPackages"
+              "linuxPackages_latest"
+              "linuxPackages_5_15_hardened"
+            ];
+
+            inherit (prev) lib;
+            map' = lib.flip map;
           in rec {
             # Override userspace
             inherit (prev.callPackage drv { configFile = "user"; }) zfsStable zfsUnstable;
@@ -66,10 +74,8 @@
               inherit (zfs') zfsStable zfsUnstable;
               zfs = zfsStable;
             });
+          } // prev.lib.listToAttrs (map' overrides (n: lib.nameValuePair n (lib.recurseIntoAttrs (final.linuxPackagesFor prev.${n}.kernel)))))
 
-            # ugly :( must use prev.linuxKernel.kernels.linux_5_17, because prev.linux_latest = linuxPackagesFor ... causing inf recursion
-            linuxPackages_latest = prev.lib.recurseIntoAttrs (linuxPackagesFor prev.linuxKernel.kernels.linux_5_17);
-          })
         ];
         config = {
           allowUnfree = true;
