@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs-master-zfs.url = "github:gkleen/nixpkgs/zfs";
     darwin.url = "github:lnl7/nix-darwin/master";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.url = "github:nix-community/home-manager/master";
@@ -45,6 +46,30 @@
         inherit system;
         overlays = [
           inputs.docker-zfs-plugin.overlay
+
+          (final: prev: let
+            zfsPkgs = inputs.nixpkgs-master-zfs;
+            drv = "${zfsPkgs}/pkgs/os-specific/linux/zfs/default.nix";
+          in rec {
+            # Override userspace
+            inherit (prev.callPackage drv { configFile = "user"; }) zfsStable zfsUnstable;
+            zfs = zfsStable;
+
+            # Override kernelspace
+            linuxPackagesFor = k: (prev.linuxPackagesFor k).extend (lpfinal: lpprev: let
+              zfs' = lpprev.callPackage drv {
+                configFile = "kernel";
+                kernel = k;
+                pkgs = prev;
+              };
+            in rec {
+              inherit (zfs') zfsStable zfsUnstable;
+              zfs = zfsStable;
+            });
+
+            # ugly :( must use prev.linuxKernel.kernels.linux_5_17, because prev.linux_latest = linuxPackagesFor ... causing inf recursion
+            linuxPackages_latest = prev.lib.recurseIntoAttrs (linuxPackagesFor prev.linuxKernel.kernels.linux_5_17);
+          })
         ];
         config = {
           allowUnfree = true;
