@@ -109,23 +109,23 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-#        packages.kexecBootstrap =
-#          inputs.nixos-generators.nixosGenerate {
-#            inherit pkgs;
-#            format = "kexec-bundle";
-#            modules = [
-#              ./systems/_common/nix.nix
-#            ];
-#          };
-#
-#        packages.rawBootstrap =
-#          (inputs.nixos-generators.nixosGenerate {
-#            inherit pkgs;
-#            format = "raw-efi";
-#            modules = [
-#              ./systems/_common/nix.nix
-#            ];
-#          }).content; # TODO: https://github.com/nix-community/nixos-generators/issues/131
+        #        packages.kexecBootstrap =
+        #          inputs.nixos-generators.nixosGenerate {
+        #            inherit pkgs;
+        #            format = "kexec-bundle";
+        #            modules = [
+        #              ./systems/_common/nix.nix
+        #            ];
+        #          };
+        #
+        #        packages.rawBootstrap =
+        #          (inputs.nixos-generators.nixosGenerate {
+        #            inherit pkgs;
+        #            format = "raw-efi";
+        #            modules = [
+        #              ./systems/_common/nix.nix
+        #            ];
+        #          }).content; # TODO: https://github.com/nix-community/nixos-generators/issues/131
 
         packages.persistGen = pkgs.callPackage ./pkgs/persist-gen.nix { };
       }) // flake-utils.lib.eachSystem supportedSystems (system:
