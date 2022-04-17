@@ -1,5 +1,5 @@
 {
-  description = "miniskeem";
+  description = "Make yourself at home";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -105,12 +105,12 @@
       nixosModules.impermanenceConfig = import ./modules/impermanence.nix;
       nixosModules.endlessh = import ./modules/endlessh.nix;
 
-      darwinConfigurations."miniskeem" = darwin.lib.darwinSystem rec {
+      darwinConfigurations."phoebus" = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
         modules = [
           self.darwinModules.nixpkgsCommon
           home-manager.darwinModules.home-manager
-          ./systems/miniskeem
+          ./systems/phoebus
           "${impure-local}"
         ];
         specialArgs = inputs // rec {

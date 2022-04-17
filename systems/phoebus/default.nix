@@ -31,6 +31,8 @@
 
   nix.trustedUsers = [ "root" "@admin" ];
 
+  networking.hostName = "phoebus";
+
   users.users.mark = {
     home = "/Users/mark";
   };
