@@ -24,7 +24,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "zfs" ];
 
-  networking.hostName = "meeksorkim2";
+  networking.hostName = "lachesis";
   networking.hostId = "007f0200";
   networking.useDHCP = false;
 

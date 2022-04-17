@@ -121,7 +121,7 @@
         };
       };
 
-      nixosConfigurations."meeksorkim2" = nixpkgs.lib.nixosSystem rec {
+      nixosConfigurations."lachesis" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
           self.nixosModules.nixpkgsCommon
@@ -133,7 +133,7 @@
           inputs.docker-zfs-plugin.nixosModule
           home-manager.nixosModules.home-manager
           impermanence.nixosModules.impermanence
-          ./systems/meeksorkim2
+          ./systems/lachesis
           ./secrets/passwords
           "${impure-local}"
         ];
