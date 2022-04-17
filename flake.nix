@@ -15,6 +15,9 @@
     secrets-decl.url = "github:ZentriaMC/secrets-decl";
     docker-zfs-plugin.url = "github:ZentriaMC/docker-zfs-plugin";
 
+    kernel-patches.url = "github:mikroskeem/kernel-patches";
+    kernel-patches.flake = false;
+
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
 

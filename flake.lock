@@ -144,6 +144,22 @@
         "type": "path"
       }
     },
+    "kernel-patches": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1650036744,
+        "narHash": "sha256-T5Z6/EotF0HgHsVuqvfvVA73nGdclbAf7Ssbt2AGlIk=",
+        "owner": "mikroskeem",
+        "repo": "kernel-patches",
+        "rev": "e725541b0b9ddbf6455f431714d7ddf06ac14219",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mikroskeem",
+        "repo": "kernel-patches",
+        "type": "github"
+      }
+    },
     "nixlib": {
       "locked": {
         "lastModified": 1636849918,
@@ -238,6 +254,7 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "impure-local": "impure-local",
+        "kernel-patches": "kernel-patches",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",
