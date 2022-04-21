@@ -20,6 +20,7 @@ args=(
 
 no_activate=0
 no_impure=0
+dry_run=0
 install_bootloader=0
 impure_path="/etc/nixos"
 tmpdir=""
@@ -32,6 +33,9 @@ while (( $# )); do
 	case "${1}" in
 		--no-activate)
 			no_activate=1
+			;;
+		--dry-run)
+			dry_run=1
 			;;
 		--install-bootloader)
 			install_bootloader=1
@@ -118,7 +122,7 @@ esac
 
 
 store=""
-if [ -n "${tmpdir}" ]; then
+if [ -n "${tmpdir}" ] && ! (( dry_run )); then
 	export TMPDIR="${tmpdir}"
 	store="${tmpdir}/nix-store"
 	echo "using '${tmpdir}' as build directory and '${store}' as store"
@@ -129,7 +133,16 @@ if [ -n "${tmpdir}" ]; then
 fi
 
 args+=(--out-link ./result)
+if (( dry_run )); then
+	args+=(--dry-run)
+fi
+
 "${wrapper[@]}" nix build "${args[@]}" "${flake}#${attr}"."${configuration}".config.system.build.toplevel
+res="${?}"
+
+if (( dry_run )); then
+	exit "${res}"
+fi
 
 if [ -n "${tmpdir}" ]; then
 	nix copy --no-check-sigs --from "${store}" "$(readlink ./result)"
