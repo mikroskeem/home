@@ -18,6 +18,9 @@
     kernel-patches.url = "github:mikroskeem/kernel-patches";
     kernel-patches.flake = false;
 
+    le9.url = "github:hakavlad/le9-patch";
+    le9.flake = false;
+
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
 

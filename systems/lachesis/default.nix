@@ -1,4 +1,4 @@
-{ config, lib, pkgs, kernel-patches, ... }:
+{ config, lib, pkgs, kernel-patches, le9, ... }:
 
 {
   imports = [
@@ -60,6 +60,11 @@
     {
       name = "binfmt_misc-enable-sandboxed-mounts";
       patch = "${kernel-patches}/binfmt_misc-sandbox/0002-binfmt_misc-enable-sandboxed-mounts.patch";
+    }
+  ] ++ lib.optionals true [
+    {
+      name = "le9ec-5.15";
+      patch = "${le9}/le9ec_patches/le9ec-5.15.patch";
     }
   ];
 

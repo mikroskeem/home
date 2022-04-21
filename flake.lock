@@ -160,6 +160,22 @@
         "type": "github"
       }
     },
+    "le9": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1644072987,
+        "narHash": "sha256-YjNLE6jCK5Tqm2eBuZ6RK5Cb8SKm9RtZ3Ksi79DiPeM=",
+        "owner": "hakavlad",
+        "repo": "le9-patch",
+        "rev": "f4fdc45b4e66f1bf8861eb7157c409a025899e96",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hakavlad",
+        "repo": "le9-patch",
+        "type": "github"
+      }
+    },
     "nixlib": {
       "locked": {
         "lastModified": 1636849918,
@@ -255,6 +271,7 @@
         "impermanence": "impermanence",
         "impure-local": "impure-local",
         "kernel-patches": "kernel-patches",
+        "le9": "le9",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",
