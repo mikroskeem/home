@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs-master-zfs.url = "github:gkleen/nixpkgs/zfs";
     darwin.url = "github:lnl7/nix-darwin/master";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.url = "github:nix-community/home-manager/master";
@@ -52,39 +51,6 @@
         inherit system;
         overlays = [
           inputs.docker-zfs-plugin.overlay
-
-          (final: prev:
-            let
-              zfsPkgs = inputs.nixpkgs-master-zfs;
-              drv = "${zfsPkgs}/pkgs/os-specific/linux/zfs/default.nix";
-              overrides = [
-                "linuxPackages"
-                "linuxPackages_latest"
-                "linuxPackages_5_15_hardened"
-              ];
-
-              inherit (prev) lib;
-              map' = lib.flip map;
-            in
-            rec {
-              # Override userspace
-              inherit (prev.callPackage drv { configFile = "user"; }) zfsStable zfsUnstable;
-              zfs = zfsStable;
-
-              # Override kernelspace
-              linuxPackagesFor = k: (prev.linuxPackagesFor k).extend (lpfinal: lpprev:
-                let
-                  zfs' = lpprev.callPackage drv {
-                    configFile = "kernel";
-                    kernel = k;
-                    pkgs = prev;
-                  };
-                in
-                rec {
-                  inherit (zfs') zfsStable zfsUnstable;
-                  zfs = zfsStable;
-                });
-            } // prev.lib.listToAttrs (map' overrides (n: lib.nameValuePair n (lib.recurseIntoAttrs (final.linuxPackagesFor prev.${n}.kernel)))))
         ];
         config = {
           allowUnfree = true;

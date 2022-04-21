@@ -244,22 +244,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-master-zfs": {
-      "locked": {
-        "lastModified": 1648155596,
-        "narHash": "sha256-cWjBo9Uz0CK/x0uSSGSj4f6SGEVYUnZAWmRhqOB+/LU=",
-        "owner": "gkleen",
-        "repo": "nixpkgs",
-        "rev": "53c1fe6b2e78eca736370ea8900f465393317b9b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "gkleen",
-        "ref": "zfs",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -275,7 +259,6 @@
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",
-        "nixpkgs-master-zfs": "nixpkgs-master-zfs",
         "secrets-decl": "secrets-decl",
         "sops": "sops"
       }
