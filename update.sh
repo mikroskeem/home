@@ -22,6 +22,7 @@ no_activate=0
 no_impure=0
 install_bootloader=0
 impure_path="/etc/nixos"
+tmpdir=""
 
 if [ "${machine}" = "Darwin" ]; then
 	no_impure=1
@@ -49,6 +50,14 @@ while (( $# )); do
 			;;
 		--no-impure)
 			no_impure=1
+			;;
+		--tmpdir)
+			if [ "${machine}" = "Darwin" ]; then
+				echo "option --tmpdir is not supported on ${machine}"
+				exit 1
+			fi
+			shift
+			tmpdir="${1}"
 			;;
 		*)
 			echo "unsupported option: ${1}"
@@ -107,8 +116,24 @@ case "${machine}" in
 		;;
 esac
 
+
+store=""
+if [ -n "${tmpdir}" ]; then
+	export TMPDIR="${tmpdir}"
+	store="${tmpdir}/nix-store"
+	echo "using '${tmpdir}' as build directory and '${store}' as store"
+
+	# NOTE: need to force impure & use custom store to bypass nix-daemon
+	nix copy --to "${store}" $(nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)')
+	args+=(--impure --store "${store}" --extra-substituters /)
+fi
+
 args+=(--out-link ./result)
 "${wrapper[@]}" nix build "${args[@]}" "${flake}#${attr}"."${configuration}".config.system.build.toplevel
+
+if [ -n "${tmpdir}" ]; then
+	nix copy --no-check-sigs --from "${store}" "$(readlink ./result)"
+fi
 
 if [ "${no_activate}" = "1" ]; then
 	echo "skipping activation as requested"
