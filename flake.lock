@@ -51,11 +51,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1650270827,
-        "narHash": "sha256-GG7A/dkqxMRlIRAJDy/EuriDXgOu1XdLpeW5W/Tgf1I=",
+        "lastModified": 1650751109,
+        "narHash": "sha256-+xJoBdXMWr6+hQMixn+Jv46fdiDJxk7Xede94f66wck=",
         "owner": "ZentriaMC",
         "repo": "docker-zfs-plugin",
-        "rev": "bab5eba0abed4cd5bbfcdfd4dca7233f0dbe1e81",
+        "rev": "9acdfd1f3c28638d790908c832f76fef07459922",
         "type": "github"
       },
       "original": {
