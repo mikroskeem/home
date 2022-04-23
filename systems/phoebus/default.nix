@@ -38,7 +38,7 @@
   };
 
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     fonts = with pkgs; [ hack-font emacs-all-the-icons-fonts ];
   };
 
