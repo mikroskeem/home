@@ -149,5 +149,7 @@
               inputs.agenix.defaultPackage.${system}
             ];
           };
+
+        formatter = pkgs.nixpkgs-fmt;
       });
 }
