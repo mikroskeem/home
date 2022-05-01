@@ -121,9 +121,15 @@ case "${machine}" in
 esac
 
 
+store=""
 if [ -n "${tmpdir}" ] && ! (( dry_run )); then
-	wrapper+=(env TMPDIR="${tmpdir}")
-	args+=(--impure)
+	export TMPDIR="${tmpdir}"
+	store="${tmpdir}/nix-store"
+	echo "using '${tmpdir}' as build directory and '${store}' as store"
+
+	# NOTE: need to force impure & use custom store to bypass nix-daemon
+	nix copy --to "${store}" $(nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)')
+	args+=(--impure --store "${store}" --extra-substituters /)
 fi
 
 args+=(--out-link ./result)
@@ -136,6 +142,10 @@ res="${?}"
 
 if (( dry_run )); then
 	exit "${res}"
+fi
+
+if [ -n "${tmpdir}" ]; then
+	nix copy --no-check-sigs --from "${store}" "$(readlink ./result)"
 fi
 
 if [ "${no_activate}" = "1" ]; then
