@@ -1,9 +1,3 @@
-{ wrapIntoOwnNamespace ? true
-, hostVethName ? "dockernet"
-, hostAddr ? "10.0.0.1/24"
-, nsAddr ? "10.0.0.100/24"
-}:
-
 { pkgs
 , lib
 , config
@@ -12,6 +6,11 @@
 
 # https://wiki.archlinux.org/title/Nftables#Working_with_Docker
 let
+  # TODO: configurable
+  hostVethName = "dockernet";
+  hostAddr = "10.0.0.1/24";
+  nsAddr = "10.0.0.100/24";
+
   hostip = "${pkgs.util-linux}/bin/nsenter --target 1 --net -- ${ip}";
   ip = "${pkgs.iproute2}/bin/ip";
 
@@ -41,17 +40,30 @@ let
 
     ${hostip} link delete ${hostVethName} || true
   '';
+
+  cfg = config.virtualisation.docker;
 in
 {
-  virtualisation.docker.enable = true;
-} // lib.optionalAttrs wrapIntoOwnNamespace {
-  systemd.services.docker.serviceConfig.PrivateNetwork = true;
-  systemd.services.docker.serviceConfig.ExecStartPre = [
-    ""
-    "${nsNetworkSetupScript}"
-  ];
-  systemd.services.docker.serviceConfig.ExecStopPost = [
-    ""
-    "${nsNetworkTeardownScript}"
-  ];
+  options = {
+    virtualisation.docker.wrapIntoOwnNetworkNamespace = lib.mkEnableOption "virtualisation.docker.wrapIntoOwnNetworkNamespace";
+  };
+
+  config = lib.mkIf (cfg.enable && cfg.wrapIntoOwnNetworkNamespace) {
+    assertions = [
+      {
+        assertion = cfg.wrapIntoOwnNetworkNamespace && !cfg.liveRestore;
+        message = "Docker live restore and network namespace wrapping are incompatible";
+      }
+    ];
+
+    systemd.services.docker.serviceConfig.PrivateNetwork = true;
+    systemd.services.docker.serviceConfig.ExecStartPre = [
+      ""
+      "${nsNetworkSetupScript}"
+    ];
+    systemd.services.docker.serviceConfig.ExecStopPost = [
+      ""
+      "${nsNetworkTeardownScript}"
+    ];
+  };
 }

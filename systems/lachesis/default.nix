@@ -6,7 +6,7 @@
     ../_linux/base.nix
     ../_linux/chrony.nix
     ../_linux/dnscrypt.nix
-    (import ../_linux/docker.nix { })
+    ../_linux/docker.nix
     ../_linux/nix.nix
     ../_linux/no-sleep.nix
     ../_linux/fix/nftables.nix
@@ -71,6 +71,11 @@
   security.sudo.wheelNeedsPassword = false;
 
   virtualisation.podman.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    liveRestore = false;
+    wrapIntoOwnNetworkNamespace = true;
+  };
 
   nix.settings.trusted-users = [ "root" "@wheel" ];
 }
