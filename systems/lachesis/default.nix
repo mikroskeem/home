@@ -74,7 +74,7 @@
   virtualisation.docker = {
     enable = true;
     liveRestore = false;
-    wrapIntoOwnNetworkNamespace = true;
+    #wrapIntoOwnNetworkNamespace = true;
   };
 
   nix.settings.trusted-users = [ "root" "@wheel" ];
