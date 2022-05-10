@@ -1,7 +1,10 @@
 { config, lib, ... }:
 
+let
+  persistDir = "/persist";
+in
 {
-  environment.persistence."/persist" = {
+  environment.persistence.${persistDir} = {
     directories = [
       "/etc/nixos"
       "/etc/ssh"
@@ -34,5 +37,10 @@
     files = [
       "/etc/machine-id"
     ];
+  };
+
+  fileSystems."/etc/ssh" = {
+    depends = [ persistDir ];
+    neededForBoot = true;
   };
 }
