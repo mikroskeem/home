@@ -28,6 +28,7 @@ rec {
         [
           colima
           coreutils
+          curl
           fd
           file
           findutils
