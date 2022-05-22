@@ -351,7 +351,7 @@ rec {
     ];
   };
 
-  programs.firefox = lib.optionalAttrs pkgs.stdenv.isLinux {
+  programs.firefox = lib.optionalAttrs (pkgs.stdenv.isLinux && hasDesktop) {
     enable = true;
   };
 }
