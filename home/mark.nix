@@ -343,7 +343,7 @@ rec {
   };
 
   programs.emacs = {
-    enable = true;
+    enable = hasDesktop;
     package = pkgs.emacs;
     extraPackages = epkgs: [
       epkgs.magit
