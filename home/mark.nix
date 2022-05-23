@@ -165,6 +165,10 @@ rec {
       if [ -n "$INSIDE_EMACS" ]; then
         unset LANG
       fi
+
+      if [ -x /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      fi
     '';
   };
 
