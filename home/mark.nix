@@ -73,10 +73,15 @@ rec {
     in
     map usePackageWorkaround chosen;
 
-  home.sessionVariables = lib.optionalAttrs config.programs.neovim.enable {
-    "EDITOR" = "nvim";
-    "VISUAL" = "nvim";
-  };
+  home.sessionVariables = lib.optionalAttrs pkgs.stdenv.isDarwin
+    {
+      HOMEBREW_NO_ENV_HINTS = "1";
+      HOMEBREW_NO_INSTALL_CLEANUP = "1";
+    } // lib.optionalAttrs config.programs.neovim.enable
+    {
+      "EDITOR" = "nvim";
+      "VISUAL" = "nvim";
+    };
 
   home.sessionPath = [
     "$HOME/bin"

@@ -10,6 +10,7 @@
 {
   imports = [
     ../_common/nix.nix
+    ./brew.nix
   ];
 
   system.stateVersion = 4;
