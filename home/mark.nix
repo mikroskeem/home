@@ -85,6 +85,7 @@ rec {
 
   home.sessionPath = [
     "$HOME/bin"
+    "$HOME/.deno/bin"
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     "/usr/local/zfs/bin"
   ];
