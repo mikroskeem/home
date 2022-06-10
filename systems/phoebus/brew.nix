@@ -14,7 +14,10 @@ in
     autoUpdate = false;
     brewPrefix = "/opt/homebrew/bin";
     brews = lib.optionals stdenv.isAarch64 [
-      "yq" # depends on pyopenssl, which is broken
+      # depends on pyopenssl, which is broken
+      "ansible"
+      "azure-cli"
+      "yq"
     ];
   };
 }
