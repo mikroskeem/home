@@ -35,7 +35,7 @@
 
   time.timeZone = "Europe/Tallinn";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
   boot.kernelPatches = [
     {
       name = "disable-bridge-state-logging-by-default";
