@@ -22,6 +22,7 @@ rec {
   programs.home-manager.enable = true;
   programs.command-not-found.enable = true;
 
+  home.stateVersion = "22.05";
   home.packages =
     let
       chosen = with pkgs;
