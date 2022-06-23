@@ -52,5 +52,8 @@
     pathsToLink = "/Applications";
   });
 
-  home-manager.users.mark = { pkgs, ... }@args: (import ../../home/mark.nix (args // { inherit intelPkgs hasDesktop; }));
+  home-manager.users.mark = import ../../home/mark.nix;
+  home-manager.extraSpecialArgs = {
+    inherit intelPkgs hasDesktop;
+  };
 }

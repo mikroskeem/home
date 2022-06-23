@@ -11,8 +11,9 @@
       ++ lib.optional config.virtualisation.docker.enable "docker";
   };
 
-  home-manager.users.mark = { pkgs, ... }@args: (import ../../home/mark.nix (args // {
-    hasDesktop = config.vendoredConfig.hasDesktop;
+  home-manager.users.mark = import ../../home/mark.nix;
+  home-manager.extraSpecialArgs = {
+    inherit (config.vendoredConfig) hasDesktop;
     intelPkgs = null;
-  }));
+  };
 }
