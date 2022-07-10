@@ -186,6 +186,7 @@ rec {
       cmp-nvim-lsp
       cmp-path
       cmp-vsnip
+      editorconfig-nvim
       nvim-cmp
       nvim-lspconfig
       rust-vim
