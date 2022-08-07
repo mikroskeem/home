@@ -5,70 +5,53 @@
 , hasDesktop
 , ...
 }:
-let
-  packageWorkarounds = { };
-
-  usePackageWorkaround = p:
-    let
-      replacement = lib.attrByPath [ pkgs.system (lib.head (lib.splitVersion p.name)) ] null packageWorkarounds;
-      final = if (replacement != null) then lib.warn "using Intel package: ${replacement.name}" replacement else p;
-    in
-    final;
-
-  onlyIntel = n: if (pkgs.stdenv.isDarwin && intelPkgs != null) then intelPkgs.${n} else null;
-
-in
 rec {
   programs.home-manager.enable = true;
   programs.command-not-found.enable = true;
 
   home.stateVersion = "22.05";
-  home.packages =
-    let
-      chosen = with pkgs;
-        [
-          colima
-          coreutils
-          curl
-          fd
-          file
-          findutils
-          gh
-          gnused
-          htop
-          lima
-          lsof
-          moreutils
-          ncdu
-          nixpkgs-fmt
-          openssh
-          pigz
-          procps
-          pv
-          ripgrep
-          tig
-          tree
-          unzip
-          wakatime
-          xz
-          zip
-          zstd
-        ] ++ lib.optionals pkgs.stdenv.isLinux [
-          strace
-        ] ++ lib.optionals hasDesktop [
-          # Games
-          quakespasm
-        ] ++ lib.optionals (hasDesktop && pkgs.stdenv.isLinux) [
-          hack-font
-          fira-code
-          gnome3.adwaita-icon-theme
-          (pkgs.callPackage ../pkgs/chromium-ozone-wrapper.nix { chromium = pkgs.ungoogled-chromium; })
+  home.packages = with pkgs;
+    [
+      colima
+      coreutils
+      curl
+      fd
+      file
+      findutils
+      gh
+      gnused
+      htop
+      lima
+      lsof
+      moreutils
+      ncdu
+      nixpkgs-fmt
+      openssh
+      pigz
+      procps
+      pv
+      ripgrep
+      tig
+      tree
+      unzip
+      wakatime
+      xz
+      zip
+      zstd
+    ] ++ lib.optionals pkgs.stdenv.isLinux [
+      strace
+    ] ++ lib.optionals hasDesktop [
+      # Games
+      quakespasm
+    ] ++ lib.optionals (hasDesktop && pkgs.stdenv.isLinux) [
+      hack-font
+      fira-code
+      gnome3.adwaita-icon-theme
+      (pkgs.callPackage ../pkgs/chromium-ozone-wrapper.nix { chromium = pkgs.ungoogled-chromium; })
 
-          alacritty
-          ripcord
-        ];
-    in
-    map usePackageWorkaround chosen;
+      alacritty
+      ripcord
+    ];
 
   home.sessionVariables = lib.optionalAttrs pkgs.stdenv.isDarwin
     {
