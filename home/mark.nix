@@ -40,9 +40,6 @@ rec {
       zstd
     ] ++ lib.optionals pkgs.stdenv.isLinux [
       strace
-    ] ++ lib.optionals hasDesktop [
-      # Games
-      quakespasm
     ] ++ lib.optionals (hasDesktop && pkgs.stdenv.isLinux) [
       hack-font
       fira-code
