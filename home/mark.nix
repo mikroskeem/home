@@ -283,8 +283,17 @@ rec {
 
     package = pkgs.gitFull;
 
-    delta.enable = true;
     lfs.enable = true;
+
+    delta = {
+      enable = true;
+      options = {
+        side-by-side = true;
+      };
+    };
+    iniContent.diff = {
+      "colorMoved" = "default";
+    };
 
     signing = {
       signByDefault = true;
