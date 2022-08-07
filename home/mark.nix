@@ -53,12 +53,8 @@ rec {
           xz
           zip
           zstd
-
-          (pkgs.callPackage ../pkgs/wait-docker.nix { })
         ] ++ lib.optionals pkgs.stdenv.isLinux [
           strace
-        ] ++ lib.optionals pkgs.stdenv.isDarwin [
-          (pkgs.callPackage ../pkgs/mac-docker-app-shell-completions.nix { })
         ] ++ lib.optionals hasDesktop [
           # Games
           quakespasm
