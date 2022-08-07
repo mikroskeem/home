@@ -18,6 +18,8 @@ in
       "ansible"
       "azure-cli"
       "yq"
+      # tinycc is marked as broken
+      "deno"
     ];
   };
 }
