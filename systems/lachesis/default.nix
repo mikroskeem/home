@@ -18,7 +18,7 @@
     #./steam.nix # enable if very bored
   ];
 
-  system.stateVersion = "21.05";
+  system.stateVersion = "22.05";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
