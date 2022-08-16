@@ -69,6 +69,7 @@
   ];
 
   security.sudo.wheelNeedsPassword = false;
+  security.polkit.enable = true;
 
   virtualisation.podman.enable = true;
   virtualisation.docker = {
