@@ -1,4 +1,4 @@
-{ config, lib, pkgs, kernel-patches, le9, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -36,37 +36,6 @@
   time.timeZone = "Europe/Tallinn";
 
   boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
-  boot.kernelPatches = [
-    {
-      name = "disable-bridge-state-logging-by-default";
-      patch = "${kernel-patches}/logging/disable-bridge-state-logging-by-default.patch";
-    }
-    {
-      name = "remove-netdev-rename-and-promiscuous-mode-messages";
-      patch = "${kernel-patches}/logging/remove-netdev-rename-and-promiscuous-mode-messages.patch";
-    }
-    {
-      name = "decrease-certain-ipv6-addrconf-message-log-levels";
-      patch = "${kernel-patches}/logging/decrease-certain-ipv6-addrconf-message-log-levels.patch";
-    }
-    {
-      name = "drop-useless-cgroup-mount-options-message";
-      patch = "${kernel-patches}/logging/drop-useless-cgroup-mount-options-message.patch";
-    }
-    {
-      name = "binfmt_misc-cleanup-on-filesystem-umount";
-      patch = "${kernel-patches}/binfmt_misc-sandbox/0001-binfmt_misc-cleanup-on-filesystem-umount.patch";
-    }
-    {
-      name = "binfmt_misc-enable-sandboxed-mounts";
-      patch = "${kernel-patches}/binfmt_misc-sandbox/0002-binfmt_misc-enable-sandboxed-mounts.patch";
-    }
-  ] ++ lib.optionals true [
-    {
-      name = "le9ec-5.15";
-      patch = "${le9}/le9ec_patches/le9ec-5.15.patch";
-    }
-  ];
 
   security.sudo.wheelNeedsPassword = false;
   security.polkit.enable = true;
