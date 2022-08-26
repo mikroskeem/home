@@ -15,6 +15,7 @@ rec {
       colima
       coreutils
       curl
+      docker-client
       fd
       file
       findutils
@@ -300,8 +301,18 @@ rec {
       key = "CC28AE6A4AB07CF5";
     };
 
-    extraConfig.init.defaultBranch = "master";
-    extraConfig.pull.ff = "only";
+    extraConfig = {
+      am.threeWay = true;
+      init.defaultBranch = "master";
+      merge.autoStash = true;
+      merge.ff = false;
+      pull.ff = "only";
+      push.autoSetupRemote = true;
+      rebase.autoStash = true;
+
+      url."ssh://git@github.com/".insteadof = "https://github.com/";
+      url."ssh://git@gitlab.com/".insteadof = "https://gitlab.com/";
+    };
   };
 
   programs.gpg = {
