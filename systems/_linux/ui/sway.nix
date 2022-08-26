@@ -57,7 +57,6 @@
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
-    media-session.enable = true;
   };
 
   security.rtkit.enable = true;
