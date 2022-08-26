@@ -351,4 +351,9 @@ rec {
   programs.firefox = lib.optionalAttrs (pkgs.stdenv.isLinux && hasDesktop) {
     enable = true;
   };
+
+  programs.vscode = {
+    enable = hasDesktop && pkgs.stdenv.isLinux;
+    package = pkgs.vscodium;
+  };
 }
