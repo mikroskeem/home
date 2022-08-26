@@ -309,6 +309,7 @@ rec {
       pull.ff = "only";
       push.autoSetupRemote = true;
       rebase.autoStash = true;
+      rerere.enabled = true;
 
       url."ssh://git@github.com/".insteadof = "https://github.com/";
       url."ssh://git@gitlab.com/".insteadof = "https://gitlab.com/";
