@@ -19,18 +19,18 @@
   programs.zsh.enable = true;
   programs.bash.enable = true;
 
-  nix.useSandbox = false; # TODO: giga slow
+  nix.settings = {
+    trusted-users = [ "root" "@admin" ];
+    sandbox = false; # TODO: giga slow
+    extra-sandbox-paths = lib.optionals (useRosetta && config.nix.settings.sandbox) [
+      "/private/var/db/oah"
+      "/Library/Apple"
+    ];
+  };
 
   nix.extraOptions = lib.optionalString useRosetta ''
     extra-platforms = x86_64-darwin
   '';
-
-  nix.sandboxPaths = lib.optionals (useRosetta && config.nix.useSandbox) [
-    "/private/var/db/oah"
-    "/Library/Apple"
-  ];
-
-  nix.trustedUsers = [ "root" "@admin" ];
 
   networking.hostName = "phoebus";
 
