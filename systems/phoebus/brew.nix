@@ -11,7 +11,7 @@ in
 {
   homebrew = lib.optionalAttrs stdenv.isDarwin {
     enable = true;
-    autoUpdate = false;
+    onActivation.autoUpdate = false;
     brewPrefix = "/opt/homebrew/bin";
     brews = lib.optionals stdenv.isAarch64 [
       # depends on pyopenssl, which is broken

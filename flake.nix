@@ -141,7 +141,7 @@
         devShell =
           pkgs.mkShell {
             nativeBuildInputs = [
-              pkgs.nixFlakes
+              pkgs.nixVersions.stable
               pkgs.sops
               pkgs.rage
               pkgs.ssh-to-age
