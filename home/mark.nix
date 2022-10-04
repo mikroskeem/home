@@ -155,6 +155,13 @@ rec {
     enable = true;
   };
 
+  programs.helix = {
+    enable = true;
+    settings = {
+      theme = "monokai_pro_octagon";
+    };
+  };
+
   programs.neovim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
