@@ -39,7 +39,7 @@
   };
 
   fonts = {
-    fontDir.enable = true;
+    fontDir.enable = false; # https://github.com/LnL7/nix-darwin/issues/485
     fonts = with pkgs; [ hack-font emacs-all-the-icons-fonts ];
   };
 
