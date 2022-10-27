@@ -25,6 +25,7 @@ rec {
       lima
       lsof
       moreutils
+      mosh
       ncdu
       nixpkgs-fmt
       openssh
