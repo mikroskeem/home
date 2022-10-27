@@ -15,11 +15,7 @@ in
     brewPrefix = "/opt/homebrew/bin";
     brews = lib.optionals stdenv.isAarch64 [
       # depends on pyopenssl, which is broken
-      "ansible"
       "azure-cli"
-      "yq"
-      # tinycc is marked as broken
-      "deno"
     ];
   };
 }
