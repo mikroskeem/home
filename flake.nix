@@ -51,6 +51,12 @@
         inherit system;
         overlays = [
           inputs.docker-zfs-plugin.overlay
+          (final: prev: {
+            gnupg23 = prev.gnupg23.overrideAttrs (old: {
+              configureFlags = old.configureFlags
+                ++ prev.lib.optional prev.stdenv.isDarwin "--disable-ccid-driver";
+            });
+          })
         ];
         config = {
           allowUnfree = true;

@@ -327,7 +327,7 @@ rec {
   programs.gpg = {
     enable = true;
 
-    scdaemonSettings = {
+    scdaemonSettings = lib.optionalAttrs pkgs.stdenv.isLinux {
       disable-ccid = true;
     };
   };
