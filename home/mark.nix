@@ -15,7 +15,12 @@ rec {
       colima
       coreutils
       curl
-      docker-client
+      (docker-client.override {
+        withBtrfs = false;
+        withLvm = false;
+        withSeccomp = false;
+        withSystemd = false;
+      })
       fd
       file
       findutils
