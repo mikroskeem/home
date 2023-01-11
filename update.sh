@@ -10,7 +10,7 @@ fi
 
 machine="$(uname -s)"
 configuration="$(hostname -s)"
-elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER)
+elevate=(sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER -H)
 wrapper=(nice -n 5)
 
 args=(
@@ -90,8 +90,8 @@ do_activate () {
 
 	if [ "${machine}" = "Darwin" ] && [ -f ./activate-user ] && [ -x ./activate-user ]; then
 		# TODO: ensure that user is not root
-		./activate-user
 		"${elevate[@]}" ./activate
+		./activate-user
 	elif [ "${machine}" = "Linux" ]; then
 		if ! "${elevate[@]}" ./bin/switch-to-configuration switch; then
 			echo "new configuration activation did not succeed cleanly"
