@@ -35,6 +35,7 @@
   networking.hostName = "phoebus";
 
   users.users.mark = {
+    name = "mark";
     home = "/Users/mark";
   };
 
