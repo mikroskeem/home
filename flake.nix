@@ -56,6 +56,15 @@
               configureFlags = old.configureFlags
                 ++ prev.lib.optional prev.stdenv.isDarwin "--disable-ccid-driver";
             });
+
+            nix-direnv = prev.nix-direnv.overrideAttrs (old: {
+              patches = (old.patches or []) ++ [
+                (prev.fetchpatch {
+                  url = "https://patch-diff.githubusercontent.com/raw/nix-community/nix-direnv/pull/271.patch";
+                  hash = "sha256-AwZcQ+sRWZjJoADOLaPoZRSi2Uix0UuF5YF3Oq/hnSc=";
+                })
+              ];
+            });
           })
         ];
         config = {
