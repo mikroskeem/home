@@ -25,6 +25,7 @@ rec {
       file
       findutils
       gh
+      git-branchless
       gnused
       htop
       lima
