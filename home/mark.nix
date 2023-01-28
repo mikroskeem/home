@@ -114,11 +114,11 @@ rec {
     };
 
     plugins = [
-      #{
-      #  file = "powerlevel10k.zsh-theme";
-      #  name = "powerlevel10k";
-      #  src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
-      #}
+      {
+        file = "powerlevel10k.zsh-theme";
+        name = "powerlevel10k";
+        src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
+      }
       {
         file = "zsh-syntax-highlighting.zsh";
         name = "zsh-syntax-highlighting";
@@ -133,14 +133,18 @@ rec {
 
     localVariables = {
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=8";
-    }; # // import ./p10k.nix;
+    };
 
     initExtraBeforeCompInit = ''
       # p10k instant prompt
-      #P10K_INSTANT_PROMPT="$XDG_CACHE_HOME/p10k-instant-prompt-''${(%):-%n}.zsh"
-      #[[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
+      P10K_INSTANT_PROMPT="$XDG_CACHE_HOME/p10k-instant-prompt-''${(%):-%n}.zsh"
+      [[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
 
-      #[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+      if [[ -f ~/.p10k.zsh ]]; then
+        source ~/.p10k.zsh
+      else
+        source ${./p10k.zsh}
+      fi
     '';
 
     initExtra = ''
