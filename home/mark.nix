@@ -319,6 +319,7 @@ rec {
       init.defaultBranch = "master";
       merge.autoStash = true;
       merge.ff = false;
+      merge.conflictStyle = "diff3";
       pull.ff = "only";
       push.autoSetupRemote = true;
       rebase.autoStash = true;
