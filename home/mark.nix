@@ -42,6 +42,7 @@ rec {
       tig
       tree
       unzip
+      vault
       wakatime
       xz
       zip
