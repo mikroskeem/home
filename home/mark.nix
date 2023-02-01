@@ -151,6 +151,19 @@ rec {
     initExtra = ''
       # Fix prompt swallowing output without a newline
       setopt prompt_cr prompt_percent prompt_sp
+
+      # cd ... => cd ../..
+      function __rationalise-dot () {
+          local MATCH
+          if [[ $LBUFFER =~ '(^|/| |      |'$'\n'''|\||;|&)\.\.$' ]]; then
+              LBUFFER+='/..'
+          else
+              zle self-insert
+          fi
+      }
+
+      zle -N __rationalise-dot
+      bindkey . __rationalise-dot
     '' + lib.optionalString pkgs.stdenv.isDarwin ''
       # $LANG is horribly broken on MacOS
       if [ -n "$INSIDE_EMACS" ]; then
