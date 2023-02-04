@@ -16,6 +16,8 @@ in
     brews = lib.optionals stdenv.isAarch64 [
       # depends on pyopenssl, which is broken
       "azure-cli"
+
+      "ncdu"
     ];
   };
 }

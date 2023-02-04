@@ -32,7 +32,6 @@ rec {
       lsof
       moreutils
       mosh
-      ncdu
       nixpkgs-fmt
       openssh
       pigz
@@ -48,6 +47,7 @@ rec {
       zip
       zstd
     ] ++ lib.optionals pkgs.stdenv.isLinux [
+      ncdu
       strace
     ] ++ lib.optionals (hasDesktop && pkgs.stdenv.isLinux) [
       hack-font

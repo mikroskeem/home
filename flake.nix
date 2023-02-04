@@ -13,6 +13,7 @@
     sops.url = "github:Mic92/sops-nix";
     secrets-decl.url = "github:ZentriaMC/secrets-decl";
     docker-zfs-plugin.url = "github:ZentriaMC/docker-zfs-plugin";
+    clean-devshell.url = "github:ZentriaMC/clean-devshell";
 
     kernel-patches.url = "github:mikroskeem/kernel-patches";
     kernel-patches.flake = false;
@@ -52,10 +53,6 @@
         overlays = [
           inputs.docker-zfs-plugin.overlay
           (final: prev: {
-            gnupg23 = prev.gnupg23.overrideAttrs (old: {
-              configureFlags = old.configureFlags
-                ++ prev.lib.optional prev.stdenv.isDarwin "--disable-ccid-driver";
-            });
           })
         ];
         config = {
@@ -140,16 +137,17 @@
       }) // flake-utils.lib.eachSystem supportedSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        mkShell = pkgs.callPackage inputs.clean-devshell.lib.mkDevShell {};
       in
       {
         devShell =
-          pkgs.mkShell {
-            nativeBuildInputs = [
+          mkShell {
+            packages = [
               pkgs.nixVersions.stable
               pkgs.sops
               pkgs.rage
               pkgs.ssh-to-age
-              inputs.agenix.defaultPackage.${system}
+              inputs.agenix.packages.${system}.agenix
             ];
           };
 
