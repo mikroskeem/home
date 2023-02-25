@@ -16,6 +16,7 @@ wrapper=(nice -n 5)
 args=(
 	--extra-experimental-features "nix-command flakes"
 	--no-use-registries
+	-L
 )
 
 no_activate=0
