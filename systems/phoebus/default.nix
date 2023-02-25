@@ -57,4 +57,9 @@
   home-manager.extraSpecialArgs = {
     inherit intelPkgs hasDesktop;
   };
+
+  system.activationScripts.postActivation.text = ''
+    mkdir -p -m 0755 /usr/local/lib/pam
+    ln -svf ${pkgs.yubico-pam}/lib/security/pam_yubico.so /usr/local/lib/pam/pam_yubico.so
+  '';
 }
