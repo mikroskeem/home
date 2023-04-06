@@ -6,6 +6,10 @@
 , ...
 }:
 rec {
+  imports = [
+    ./mark-macgpg.nix
+  ];
+
   programs.home-manager.enable = true;
   programs.command-not-found.enable = true;
 
@@ -168,6 +172,15 @@ rec {
       # $LANG is horribly broken on MacOS
       if [ -n "$INSIDE_EMACS" ]; then
         unset LANG
+      fi
+
+      if [ -n "$SSH_CONNECTION" ] || [ -n "$TMUX" ]; then
+        export PINENTRY_USER_DATA="USE_CURSES=1"
+      fi
+
+      export GPG_TTY="$(tty)"
+      if pgrep -q gpg-agent; then
+        ${config.programs.gpg.package}/bin/gpg-connect-agent updatestartuptty /bye > /dev/null
       fi
 
       if [ -x /opt/homebrew/bin/brew ]; then
