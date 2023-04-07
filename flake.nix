@@ -52,8 +52,7 @@
         inherit system;
         overlays = [
           inputs.docker-zfs-plugin.overlay
-          (final: prev: {
-          })
+          (final: prev: { })
         ];
         config = {
           allowUnfree = true;
@@ -137,7 +136,7 @@
       }) // flake-utils.lib.eachSystem supportedSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        mkShell = pkgs.callPackage inputs.clean-devshell.lib.mkDevShell {};
+        mkShell = pkgs.callPackage inputs.clean-devshell.lib.mkDevShell { };
       in
       {
         devShell =
