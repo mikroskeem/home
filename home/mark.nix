@@ -184,7 +184,11 @@ rec {
       fi
 
       if [ -x /opt/homebrew/bin/brew ]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
+        eval "$(/opt/homebrew/bin/brew shellenv | grep '^export HOMEBREW_')"
+        #export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin''${PATH+:$PATH}";
+        export PATH="$(printf '%s' "$PATH" | ${pkgs.gnused}/bin/sed 's#:\(/usr/local/bin\):#:\1:'"$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin"':#')"
+        export MANPATH="$HOMEBREW_PREFIX/share/man''${MANPATH+:$MANPATH}";
+        export INFOPATH="$HOMEBREW_PREFIX/share/info''${INFOPATH+:$INFOPATH}";
       fi
     '';
   };
