@@ -13,7 +13,6 @@
 
     ./hardware.nix
     ./users.nix
-    #./steam.nix # enable if very bored
   ];
 
   system.stateVersion = "22.05";
