@@ -401,15 +401,6 @@ rec {
     '';
   };
 
-  programs.emacs = {
-    enable = hasDesktop;
-    package = pkgs.emacs;
-    extraPackages = epkgs: [
-      epkgs.magit
-      epkgs.vterm
-    ];
-  };
-
   programs.firefox = lib.optionalAttrs (pkgs.stdenv.isLinux && hasDesktop) {
     enable = true;
   };
