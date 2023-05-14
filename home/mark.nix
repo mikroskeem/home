@@ -393,7 +393,7 @@ rec {
 
   programs.tmux = {
     enable = true;
-    terminal = "tmux-256color";
+    #terminal = "tmux-256color";
     extraConfig = ''
       set-option -sg escape-time 10
       # neovim RGB
