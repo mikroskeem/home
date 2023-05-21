@@ -62,7 +62,7 @@
     {
       nixosModules.nixpkgsCommon = { lib, pkgs, ... }: {
         nix.nixPath = [
-          "nixpkgs=${nixpkgs.outPath}"
+          "nixpkgs=flake:nixpkgs"
         ] ++ lib.optionals pkgs.stdenv.isLinux [
           "nixpkgs/nixos=${nixpkgs.outPath}/nixos"
           "nixos-config=/etc/nixos/configuration.nix"
