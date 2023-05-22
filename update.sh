@@ -91,7 +91,7 @@ do_activate () {
 
 	if [ "${machine}" = "Darwin" ] && [ -f ./activate-user ] && [ -x ./activate-user ]; then
 		# TODO: ensure that user is not root
-		"${elevate[@]}" ./activate
+		"${elevate[@]}" env HOME=/var/root ./activate
 		./activate-user
 	elif [ "${machine}" = "Linux" ]; then
 		if ! "${elevate[@]}" ./bin/switch-to-configuration switch; then
