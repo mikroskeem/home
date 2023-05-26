@@ -363,8 +363,8 @@ rec {
       rebase.autoStash = true;
       rerere.enabled = true;
 
-      url."ssh://git@github.com/".insteadof = "https://github.com/";
-      url."ssh://git@gitlab.com/".insteadof = "https://gitlab.com/";
+      url."ssh://git@github.com/".pushinsteadof = "https://github.com/";
+      url."ssh://git@gitlab.com/".pushinsteadof = "https://gitlab.com/";
     };
   };
 
