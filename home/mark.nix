@@ -190,6 +190,8 @@ rec {
         export MANPATH="$HOMEBREW_PREFIX/share/man''${MANPATH+:$MANPATH}";
         export INFOPATH="$HOMEBREW_PREFIX/share/info''${INFOPATH+:$INFOPATH}";
       fi
+    '' + ''
+      [ -f ~/.zshrc.local ] && source ~/.zshrc.local
     '';
   };
 
