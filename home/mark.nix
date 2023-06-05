@@ -30,6 +30,7 @@ rec {
       findutils
       gh
       git-branchless
+      git-trim
       gnused
       htop
       lima
@@ -364,6 +365,7 @@ rec {
       push.autoSetupRemote = true;
       rebase.autoStash = true;
       rerere.enabled = true;
+      trim.bases = lib.concatStringsSep "," [ "master" ];
 
       url."ssh://git@github.com/".pushinsteadof = "https://github.com/";
       url."ssh://git@gitlab.com/".pushinsteadof = "https://gitlab.com/";
