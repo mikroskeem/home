@@ -365,7 +365,7 @@ rec {
       push.autoSetupRemote = true;
       rebase.autoStash = true;
       rerere.enabled = true;
-      trim.bases = lib.concatStringsSep "," [ "master" ];
+      trim.bases = lib.concatStringsSep "," [ "master" "production" ];
 
       url."ssh://git@github.com/".pushinsteadof = "https://github.com/";
       url."ssh://git@gitlab.com/".pushinsteadof = "https://gitlab.com/";
