@@ -89,26 +89,6 @@
           useRosetta = true;
         };
       };
-
-      nixosConfigurations."lachesis" = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        modules = [
-          self.nixosModules.nixpkgsCommon
-          self.nixosModules.impermanenceConfig
-          inputs.agenix.nixosModules.age
-          inputs.sops.nixosModules.sops
-          inputs.secrets-decl.nixosModules.declaredSecrets
-          inputs.docker-zfs-plugin.nixosModule
-          home-manager.nixosModules.home-manager
-          impermanence.nixosModules.impermanence
-          ./systems/lachesis
-          ./secrets/passwords
-          "${impure-local}"
-        ];
-        specialArgs = inputs // rec {
-          pkgs = importPkgs system;
-        };
-      };
     } // flake-utils.lib.eachSystem linuxSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
