@@ -356,6 +356,7 @@ rec {
     };
 
     extraConfig = {
+      advice.detachedHead = false;
       am.threeWay = true;
       init.defaultBranch = "master";
       merge.autoStash = true;
