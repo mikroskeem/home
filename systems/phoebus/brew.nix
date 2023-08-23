@@ -14,7 +14,6 @@ in
     onActivation.autoUpdate = false;
     brewPrefix = "/opt/homebrew/bin";
     brews = lib.optionals stdenv.isAarch64 [
-      "ncdu"
     ];
   };
 }
