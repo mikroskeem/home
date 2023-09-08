@@ -326,7 +326,7 @@ rec {
 
   programs.bat.enable = true;
 
-  programs.exa = {
+  programs.eza = {
     enable = true;
     enableAliases = true;
   };
