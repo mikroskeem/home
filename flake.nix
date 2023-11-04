@@ -24,8 +24,8 @@
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
 
-    impure-local.url = "path:./impure-local";
-    impure-local.flake = false;
+    #impure-local.url = "path:./impure-local";
+    #impure-local.flake = false;
 
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +36,7 @@
     docker-zfs-plugin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, darwin, flake-utils, home-manager, impermanence, impure-local, ... }@inputs:
+  outputs = { self, nixpkgs, darwin, flake-utils, home-manager, impermanence, ... }@inputs:
     let
       linuxSystems = [
         "aarch64-linux"
@@ -81,7 +81,7 @@
           self.darwinModules.nixpkgsCommon
           home-manager.darwinModules.home-manager
           ./systems/phoebus
-          "${impure-local}"
+          #"${impure-local}"
         ];
         specialArgs = inputs // rec {
           pkgs = importPkgs system;

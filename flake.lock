@@ -195,19 +195,6 @@
         "type": "github"
       }
     },
-    "impure-local": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-6pJ2Ev9tyW6cLAwqqqb5+VUhqvlVne1+IlB9DtFc0Fo=",
-        "path": "./impure-local",
-        "type": "path"
-      },
-      "original": {
-        "path": "./impure-local",
-        "type": "path"
-      }
-    },
     "kernel-patches": {
       "flake": false,
       "locked": {
@@ -334,7 +321,6 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager_2",
         "impermanence": "impermanence",
-        "impure-local": "impure-local",
         "kernel-patches": "kernel-patches",
         "le9": "le9",
         "nixos-generators": "nixos-generators",
