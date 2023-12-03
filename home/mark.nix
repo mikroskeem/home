@@ -34,6 +34,8 @@ rec {
       gnused
       htop
       k3d
+      kubernetes-helm
+      kubectl
       lima
       lsof
       moreutils
