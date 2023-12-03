@@ -33,6 +33,7 @@ rec {
       git-trim
       gnused
       htop
+      k3d
       lima
       lsof
       moreutils
