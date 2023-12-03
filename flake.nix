@@ -52,7 +52,14 @@
         inherit system;
         overlays = [
           inputs.docker-zfs-plugin.overlay
-          (final: prev: { })
+          (final: prev: {
+            yubico-pam = prev.yubico-pam.overrideAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ prev.lib.optionals prev.stdenv.isDarwin [
+                prev.darwin.apple_sdk.frameworks.CoreServices
+                prev.darwin.apple_sdk.frameworks.SystemConfiguration
+              ];
+            });
+          })
         ];
         config = {
           allowUnfree = true;
