@@ -13,8 +13,8 @@ let
   '';
 in
 {
-  home.file.".gnupg/gpg-agent.conf" = lib.optionalAttrs pkgs.stdenv.isDarwin {
-    text = ''
+  home.file = lib.optionalAttrs pkgs.stdenv.isDarwin {
+    ".gnupg/gpg-agent.conf".text = ''
       pinentry-program ${pinentryWrapper}/bin/pinentry-macos
     '';
   };
