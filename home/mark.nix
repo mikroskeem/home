@@ -333,7 +333,6 @@ rec {
 
   programs.eza = {
     enable = true;
-    enableAliases = true;
   };
 
   programs.git = {
