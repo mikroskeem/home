@@ -96,6 +96,21 @@
           useRosetta = true;
         };
       };
+
+      darwinConfigurations."artemis" = darwin.lib.darwinSystem rec {
+        system = "aarch64-darwin";
+        modules = [
+          self.darwinModules.nixpkgsCommon
+          home-manager.darwinModules.home-manager
+          ./systems/artemis
+          #"${impure-local}"
+        ];
+        specialArgs = inputs // rec {
+          pkgs = importPkgs system;
+          hasDesktop = true;
+          useRosetta = true;
+        };
+      };
     } // flake-utils.lib.eachSystem linuxSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
