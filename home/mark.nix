@@ -400,7 +400,7 @@ rec {
     enableSshSupport = true;
     #enableScDaemon = true;
     defaultCacheTtl = 7200;
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentryCurses;
   };
 
   programs.direnv = {
