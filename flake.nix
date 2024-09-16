@@ -53,6 +53,10 @@
         overlays = [
           inputs.docker-zfs-plugin.overlay
           (final: prev: {
+            git-branchless = prev.git-branchless.overrideAttrs (old: {
+              doCheck = false;
+              doInstallCheck = false;
+            });
             yubico-pam = prev.yubico-pam.overrideAttrs (old: {
               buildInputs = (old.buildInputs or [ ]) ++ prev.lib.optionals prev.stdenv.isDarwin [
                 prev.darwin.apple_sdk.frameworks.CoreServices
@@ -74,7 +78,6 @@
           "nixpkgs/nixos=${nixpkgs.outPath}/nixos"
           "nixos-config=/etc/nixos/configuration.nix"
         ];
-        nix.registry.nixpkgs.flake = nixpkgs;
         home-manager.useGlobalPkgs = true;
       };
 
