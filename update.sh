@@ -17,6 +17,7 @@ args=(
 	--extra-experimental-features "nix-command flakes"
 	--no-use-registries
 	-L
+	--keep-going
 )
 
 no_activate=0
