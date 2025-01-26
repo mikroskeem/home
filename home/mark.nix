@@ -33,6 +33,7 @@ rec {
       git-trim
       gnused
       htop
+      jujutsu
       k3d
       kubernetes-helm
       kubectl
