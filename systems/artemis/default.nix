@@ -15,7 +15,6 @@
 
   system.stateVersion = 4;
 
-  services.nix-daemon.enable = true;
   programs.zsh.enable = true;
   programs.bash.enable = true;
 
